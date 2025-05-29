@@ -35,21 +35,26 @@ export default function Home() {
       <Header user={user} logout={logout} loading={loading} />
 
       {/* Main Body */}
-      <main className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-        <p className="text-lg text-gray-700 mb-4">
-          Welcome to SanGig – Gig jobs made simple.
-        </p>
-        {!loading && user && (
-          <p className="text-green-600 font-medium">
-            You are signed in as <strong>{user.email}</strong>.
+      <main
+        style={{
+          paddingLeft: "clamp(1rem, 2vw, 32rem)",
+          paddingRight: "clamp(1rem, 2vw, 32rem)",
+        }}
+        className="flex-1 flex flex-col items-center justify-center py-6 text-center"
+      >
+        <div style={{ maxWidth: "1280px", width: "100%" }} className="mx-auto">
+          <p className="text-lg text-gray-700 mb-4">
+            Job and Gig Search by SanGig. The #1 job site in Canada and the USA.
+            Search millions of jobs from thousands of job boards, newspapers,
+            classifieds and company websites on sangigs.com
           </p>
-        )}
+          {!loading && user && (
+            <p className="text-green-600 font-medium">
+              You are signed in as <strong>{user.email}</strong>.
+            </p>
+          )}
+        </div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-gray-100 text-center py-3 border-t text-sm text-gray-500">
-        © {new Date().getFullYear()} SanGig. All rights reserved.
-      </footer>
     </div>
   );
 }

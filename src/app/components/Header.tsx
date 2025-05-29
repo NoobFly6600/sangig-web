@@ -17,59 +17,77 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
   const router = useRouter();
 
   return (
-    <header className="px-6 md:px-10 py-4 shadow flex justify-between items-center">
-      <button
-        onClick={() => router.push("/")}
-        className="text-2xl md:text-3xl font-bold text-[#50C878] cursor-pointer focus:outline-none hover:opacity-80"
+    <header
+      style={{
+        paddingLeft: "clamp(1rem, 2vw, 32rem)",
+        paddingRight: "clamp(1rem, 2vw, 32rem)",
+      }}
+      className="py-4 shadow flex justify-between items-center"
+    >
+      <div
+        style={{ maxWidth: "1280px", width: "100%" }}
+        className="mx-auto flex justify-between items-center"
       >
-        SanGig
-      </button>
+        <button
+          onClick={() => router.push("/")}
+          className="text-2xl md:text-3xl font-bold text-[#50C878] cursor-pointer focus:outline-none hover:opacity-80"
+        >
+          SanGig
+        </button>
 
-      {!loading && (
-        <div className="flex items-center ml-auto">
-          {!user && (
+        {!loading && (
+          <div className="flex items-center ml-auto">
             <button
-              onClick={() => router.push("/sign-in")}
-              className="bg-[#50C878] text-white mr-3 px-4 py-2 rounded-lg hover:bg-[#3fa963] transition cursor-pointer ml-4"
+              onClick={() => router.push(user ? "/post" : "/sign-in")}
+              className="md:hidden bg-[#50C878] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#3fa963] transition cursor-pointer ml-4 mr-3"
             >
-              Sign in
+              Post a job
             </button>
-          )}
-          {/* Mobile dropdown */}
-          <div className="md:hidden">
-            <MenuDropDown />
-          </div>
 
-          {/* Desktop menu */}
-          <div className="hidden md:flex items-center gap-4">
-            {user ? (
-              <>
-                <span
-                  onClick={() => router.push("/messages")}
-                  className="text-3xl cursor-pointer text-gray-400 transition hover:text-[#50C878]"
-                >
-                  <MessageFilled />
-                </span>
-                <AvatarDropdown logout={logout} />
-                <div className="h-8 border-l-2 border-gray-300 mx-1" />
-                <button
-                  onClick={() => router.push("/post")}
-                  className="px-2 py-2 font-semibold hover:text-[#3fa963] transition cursor-pointer"
-                >
-                  Post a job
-                </button>
-              </>
-            ) : (
-              <button
-                onClick={() => router.push("/sign-in")}
-                className="px-2 py-2 font-semibold hover:text-[#3fa963] transition cursor-pointer"
-              >
-                Post a job
-              </button>
-            )}
+            {/* Mobile dropdown */}
+            <div className="md:hidden">
+              <MenuDropDown />
+            </div>
+
+            {/* Desktop menu */}
+            <div className="hidden md:flex items-center gap-5">
+              {user ? (
+                <>
+                  <span
+                    onClick={() => router.push("/messages")}
+                    className="text-3xl cursor-pointer text-gray-400 transition hover:text-black"
+                  >
+                    <MessageFilled />
+                  </span>
+                  <AvatarDropdown logout={logout} />
+                  <div className="h-8 border-l-2 border-gray-300 mr-2" />
+                  <button
+                    onClick={() => router.push("/post")}
+                    className="bg-[#50C878] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#3fa963] transition cursor-pointer"
+                  >
+                    Post a job
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => router.push("/sign-in")}
+                    className="bg-[#50C878] text-white font-semibold px-4 py-2 rounded-lg hover:bg-[#3fa963] transition cursor-pointer ml-4"
+                  >
+                    Sign in
+                  </button>
+                  <button
+                    onClick={() => router.push("/sign-in")}
+                    className="px-2 py-2 font-semibold hover:text-[#3fa963] transition cursor-pointer"
+                  >
+                    Post a job
+                  </button>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </header>
   );
 };

@@ -41,6 +41,10 @@ export default function Profile() {
 
         <div className="space-y-4">
           <div>
+            <h3 className="font-semibold">About</h3>
+            <p className="text-gray-700">{userData.about}</p>
+          </div>
+          <div>
             <h3 className="font-semibold">Skills</h3>
             <ul className="list-disc list-inside text-gray-700">
               {userData.skills.map((skill, index) => (
@@ -52,11 +56,6 @@ export default function Profile() {
           <div>
             <h3 className="font-semibold">Education</h3>
             <p className="text-gray-700">{userData.education}</p>
-          </div>
-
-          <div>
-            <h3 className="font-semibold">About</h3>
-            <p className="text-gray-700">{userData.about}</p>
           </div>
 
           <div>
