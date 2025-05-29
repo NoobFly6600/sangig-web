@@ -1,11 +1,10 @@
-// components/Header.tsx
 "use client";
 
 import React from "react";
 import { useRouter } from "next/navigation";
 import { MessageFilled } from "@ant-design/icons";
-import MenuDropDown from "./MenuDropDown"; // adjust path if needed
-import AvatarDropdown from "./AvatarDropdown"; // adjust path if needed
+import MenuDropDown from "./MenuDropDown";
+import AvatarDropdown from "./AvatarDropdown";
 
 interface HeaderProps {
   user: any;
@@ -19,10 +18,10 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
   return (
     <header
       style={{
-        paddingLeft: "clamp(1rem, 2vw, 32rem)",
-        paddingRight: "clamp(1rem, 2vw, 32rem)",
+        paddingLeft: "clamp(1rem, 2vw, 10rem)",
+        paddingRight: "clamp(1rem, 2vw, 10rem)",
       }}
-      className="py-4 shadow flex justify-between items-center"
+      className="sticky top-0 z-50 bg-white py-3 sm:py-4 shadow flex justify-between items-center"
     >
       <div
         style={{ maxWidth: "1280px", width: "100%" }}
@@ -30,7 +29,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
       >
         <button
           onClick={() => router.push("/")}
-          className="text-2xl md:text-3xl font-bold text-[#50C878] cursor-pointer focus:outline-none hover:opacity-80"
+          className="text-2xl sm:text-3xl font-bold text-[#50C878] cursor-pointer focus:outline-none hover:text-[#3fa963]"
         >
           SanGig
         </button>
@@ -39,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
           <div className="flex items-center ml-auto">
             <button
               onClick={() => router.push(user ? "/post" : "/sign-in")}
-              className="md:hidden bg-[#50C878] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#3fa963] transition cursor-pointer ml-4 mr-3"
+              className="md:hidden bg-[#50C878] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#3fa963] transition cursor-pointer ml-4 mr-2 "
             >
               Post a job
             </button>
@@ -55,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
                 <>
                   <span
                     onClick={() => router.push("/messages")}
-                    className="text-3xl cursor-pointer text-gray-400 transition hover:text-black"
+                    className="text-3xl cursor-pointer text-gray-400 transition hover:text-gray-700"
                   >
                     <MessageFilled />
                   </span>

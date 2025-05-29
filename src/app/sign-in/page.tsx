@@ -68,10 +68,10 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen px-5 flex flex-col items-center pt-30">
+    <div className="min-h-screen px-5 flex flex-col items-center pt-20 sm:pt-40">
       <h1 className="text-3xl font-bold mb-15">SanGig</h1>
       <p className="text-gray-500 w-full max-w-md text-center">
-        Sign in to discover jobs and gigs, message employers directly, post
+        Sign in to discover jobs and gigs, message employers directly, or post
         jobs, hire talent, and more.
       </p>
 
@@ -82,7 +82,8 @@ export default function SignIn() {
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border-2 border-gray-300 rounded-lg px-3 py-2 w-full max-w-md text-lg font-base my-2 focus:outline-none focus:border-[#50C878]"
+            style={{ borderWidth: "1.5px" }}
+            className=" border-gray-300 rounded-lg px-3 py-2 w-full max-w-md  font-base my-2 focus:outline-none focus:border-[#50C878]"
           />
           {error && (
             <div className="w-full max-w-md">
@@ -91,20 +92,21 @@ export default function SignIn() {
           )}
           <button
             onClick={handleSendLink}
-            className="w-full mt-2 max-w-md bg-[#50C878] text-white py-2 rounded-lg font-semibold text-lg hover:bg-[#3fa963] transition cursor-pointer"
+            className="w-full mt-2 max-w-md bg-[#50C878] text-white py-2 rounded-lg font-semibold  hover:bg-[#3fa963] transition cursor-pointer"
           >
             Continue
           </button>
 
-          <div className="flex items-center w-full max-w-md my-3 text-gray-500 font-medium">
-            <div className="flex-grow border-t-2 border-gray-300" />
+          <div className="flex items-center w-full max-w-md my-2 text-gray-500 font-medium">
+            <div className="flex-grow border border-gray-300" />
             <span className="mx-3">or</span>
-            <div className="flex-grow border-t-2 border-gray-300" />
+            <div className="flex-grow border border-gray-300" />
           </div>
 
           <button
             onClick={handleGoogleSignIn}
-            className="relative flex items-center justify-center w-full max-w-md py-2 px-4 mb-4 border-2 border-gray-300 rounded-lg bg-white text-lg font-semibold transition hover:bg-[#e8f8f1] hover:border-[#50C878] cursor-pointer"
+            style={{ borderWidth: "1.5px" }}
+            className="relative flex items-center justify-center w-full max-w-md py-2 px-4 mb-4  border-gray-300 rounded-lg bg-white font-semibold transition hover:bg-[#e8f8f1] hover:border-[#50C878] cursor-pointer"
           >
             <div className="absolute left-4 w-5 h-5 min-w-[20px]">
               <svg

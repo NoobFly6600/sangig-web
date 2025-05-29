@@ -4,7 +4,10 @@ import {
   LogoutOutlined,
   SettingOutlined,
   UserOutlined,
+  ScheduleOutlined,
 } from "@ant-design/icons";
+import { useAuth } from "@/context/AuthContext";
+
 import type { MenuProps } from "antd";
 import { Dropdown } from "antd";
 import Image from "next/image";
@@ -12,12 +15,13 @@ import { useRouter } from "next/navigation";
 
 const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
   const router = useRouter();
+  const { user } = useAuth();
 
   const items: MenuProps["items"] = [
     {
       key: "1",
       label: (
-        <div className="py-2 pr-30 text-base text-gray-500">My Account</div>
+        <div className="py-2 pr-30 text-base text-gray-500">{user?.email}</div>
       ),
       disabled: true,
     },
@@ -37,6 +41,9 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
       ),
     },
     {
+      type: "divider",
+    },
+    {
       key: "3",
       label: (
         <div className="py-2 text-base flex items-center gap-2">
@@ -50,6 +57,18 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
     },
     {
       key: "4",
+      label: (
+        <div className="py-2 text-base flex items-center gap-2">
+          <ScheduleOutlined className="text-[16px]" />
+          Posted jobs
+        </div>
+      ),
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "5",
       label: (
         <div
           className="py-2 text-base text-red-600 font-medium flex items-center gap-2"

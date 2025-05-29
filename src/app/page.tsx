@@ -37,8 +37,8 @@ export default function Home() {
       {/* Main Body */}
       <main
         style={{
-          paddingLeft: "clamp(1rem, 2vw, 32rem)",
-          paddingRight: "clamp(1rem, 2vw, 32rem)",
+          paddingLeft: "clamp(1rem, 2vw, 10rem)",
+          paddingRight: "clamp(1rem, 2vw, 10rem)",
         }}
         className="flex-1 flex flex-col items-center justify-center py-6 text-center"
       >

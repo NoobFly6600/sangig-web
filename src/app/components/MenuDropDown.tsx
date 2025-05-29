@@ -2,7 +2,7 @@
 
 import React from "react";
 import type { MenuProps } from "antd";
-import { Dropdown, Space } from "antd";
+import { Dropdown } from "antd";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { MenuOutlined } from "@ant-design/icons";
@@ -31,6 +31,9 @@ const MenuDropDown: React.FC<MenuDropDownProps> = ({ setDrawerOpen }) => {
         break;
       case "post":
         router.push(user ? "/post" : "/sign-in");
+        break;
+      case "posted":
+        router.push("/post");
         break;
       case "sign-in":
         router.push("/sign-in");
@@ -89,6 +92,17 @@ const MenuDropDown: React.FC<MenuDropDownProps> = ({ setDrawerOpen }) => {
           type: "divider",
         },
         {
+          key: "posted",
+          label: (
+            <span className="py-2 text-base flex items-center gap-2">
+              Posted jobs
+            </span>
+          ),
+        },
+        {
+          type: "divider",
+        },
+        {
           key: "sign-out",
           label: (
             <span className="py-2 text-base flex items-center gap-2 text-red-500">
@@ -138,7 +152,7 @@ const MenuDropDown: React.FC<MenuDropDownProps> = ({ setDrawerOpen }) => {
     >
       <a
         onClick={(e) => e.preventDefault()}
-        className="text-2xl cursor-pointer px-3 py-1 rounded-lg hover:bg-gray-100 inline-block"
+        className="text-xl cursor-pointer px-2 py-1 rounded-lg hover:bg-gray-100 inline-block"
       >
         <MenuOutlined />
       </a>
