@@ -68,7 +68,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className="min-h-screen px-5 flex flex-col items-center pt-20 sm:pt-40">
+    <div className="min-h-screen px-5 flex flex-col items-center pt-20 sm:pt-24 md:pt-26 lg:pt-28 2xl:pt-40">
       <h1 className="text-3xl font-bold mb-15">SanGig</h1>
       <p className="text-gray-500 w-full max-w-md text-center">
         Sign in to discover jobs and gigs, message employers directly, or post
