@@ -1,82 +1,73 @@
 "use client";
 
 import { useState } from "react";
-import { sendSignInLinkToEmail } from "firebase/auth";
-import { auth } from "@/firebase/config";
 import { useAuth } from "@/context/AuthContext";
-import { useRouter } from "next/navigation";
-
-const actionCodeSettings = {
-  url: typeof window !== "undefined" ? window.location.origin : "",
-  handleCodeInApp: true,
-};
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [linkSent, setLinkSent] = useState(false);
-  const { signInWithGoogle } = useAuth();
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const { sendMagicLink, signInWithGoogle } = useAuth();
 
-  const parseFirebaseError = (errorMessage: string) => {
-    if (!errorMessage) return null;
+  const parseSupabaseAuthError = (error: any) => {
+    if (!error) return null;
 
-    if (errorMessage.includes("auth/popup-closed-by-user")) {
-      return null;
+    switch (error.message) {
+      case "Invalid email":
+        return "Please enter a valid email address.";
+      case "Email rate limit exceeded":
+        return "Too many emails sent. Please wait before trying again.";
+      case "Email not confirmed":
+        return "Please check your email and click the confirmation link.";
+      case "Invalid login credentials":
+        return "Invalid email or password. Please try again.";
+      default:
+        return error.message;
     }
-    if (errorMessage.includes("auth/quota-exceeded")) {
-      return "You have exceeded daily quota for email sign in. Try again later.";
-    }
-    if (errorMessage.includes("auth/invalid-email")) {
-      return "Please enter a valid email address.";
-    }
-    if (errorMessage.includes("auth/missing-email")) {
-      return "Please enter an email address.";
-    }
-    if (errorMessage.includes("auth/user-not-found")) {
-      return "No user found with this email address.";
-    }
-    if (errorMessage.includes("auth/network-request-failed")) {
-      return "Network error. Please check your internet connection.";
-    }
-    return errorMessage;
   };
-
   const handleSendLink = async () => {
+    if (!email) {
+      setError("Please enter your email address");
+      return;
+    }
+
+    setLoading(true);
     try {
-      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-      window.localStorage.setItem("emailForSignIn", email);
+      await sendMagicLink(email);
       setLinkSent(true);
       setError(null);
     } catch (err: any) {
-      const friendlyMessage = parseFirebaseError(err.message);
-      if (friendlyMessage) setError(friendlyMessage);
-      else setError(null);
+      console.error("Magic link error:", err);
+      setError(parseSupabaseAuthError(err) || "Failed to send magic link");
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Updated Google sign-in handler
   const handleGoogleSignIn = async () => {
+    setLoading(true);
     try {
       await signInWithGoogle();
-      router.push("/");
       setError(null);
     } catch (err: any) {
-      const friendlyMessage = parseFirebaseError(err.message);
-      if (friendlyMessage) setError(friendlyMessage);
-      else setError(null);
+      console.error("Google sign-in error:", err);
+      setError(parseSupabaseAuthError(err) || "Failed to sign in with Google");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen px-5 flex flex-col items-center pt-20 sm:pt-24 md:pt-26 lg:pt-28 2xl:pt-40">
-      <h1 className="text-3xl font-bold mb-15">SanGig</h1>
-      <p className="text-gray-500 w-full max-w-md text-center">
-        Sign in to discover jobs and gigs, message employers directly, or post
-        jobs, hire talent, and more.
-      </p>
-
-      {!linkSent && (
+      {!linkSent ? (
         <>
+          <h1 className="text-3xl font-bold mb-15">SanGig</h1>
+          <p className="text-gray-500 w-full max-w-md text-center">
+            Sign in to discover jobs and gigs, message employers directly, or
+            post jobs, hire talent, and more.
+          </p>
           <input
             type="email"
             placeholder="Enter your email"
@@ -143,6 +134,14 @@ export default function SignIn() {
             </p>
           </div>
         </>
+      ) : (
+        <div className="w-full max-w-md text-center mt-10">
+          <h2 className="text-2xl font-semibold mb-4">Check your email</h2>
+          <p className="text-gray-600">
+            We've sent a login link to <strong>{email}</strong>. Click the link
+            in your inbox to sign in.
+          </p>
+        </div>
       )}
     </div>
   );

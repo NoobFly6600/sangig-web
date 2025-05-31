@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-import { isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
-import { auth } from "@/firebase/config";
+
 import Header from "./components/Header";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { LoadingOutlined, CloseOutlined } from "@ant-design/icons";
@@ -193,7 +192,7 @@ const ITEMS_PER_PAGE = 10;
 
 export default function Home() {
   const router = useRouter();
-  const { user, loading, logout } = useAuth();
+  const { user, logout } = useAuth();
   const [page, setPage] = useState(1);
   const [displayedJobs, setDisplayedJobs] = useState(
     jobs.slice(0, ITEMS_PER_PAGE)
@@ -210,23 +209,6 @@ export default function Home() {
   const onClose = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    const completeSignIn = async () => {
-      if (isSignInWithEmailLink(auth, window.location.href)) {
-        const email = window.localStorage.getItem("emailForSignIn");
-        if (email) {
-          try {
-            await signInWithEmailLink(auth, email, window.location.href);
-            window.localStorage.removeItem("emailForSignIn");
-          } catch (error) {
-            console.error(error);
-          }
-        }
-      }
-    };
-
-    completeSignIn();
-  }, []);
 
   const fetchMoreJobs = () => {
     const nextPage = page + 1;
@@ -234,11 +216,11 @@ export default function Home() {
     setDisplayedJobs(nextItems);
     setPage(nextPage);
   };
-
+  console.log(user);
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
-      <Header user={user} logout={logout} loading={loading} />
+      <Header user={user} logout={logout} />
 
       {/* Main Body */}
       <main
@@ -253,7 +235,7 @@ export default function Home() {
           <div
             id="scrollableDiv"
             className={`
-            relative z-0 overflow-y-auto
+            relative z-0 
             w-full md:w-1/2 divide-y overflow-auto
             border-0 md:border md:rounded-l-lg
             md:[border-width:1.5px] md:border-gray-300
@@ -317,12 +299,12 @@ export default function Home() {
           {/* Detail View */}
           <div
             className="
-            hidden md:block md:w-1/2 
+            hidden md:block md:w-1/2
             md:border-t md:border-r md:border-b
-            md:border-gray-300 
+            md:border-gray-300
             md:rounded-r-lg
-            md:[border-top-width:1.5px] 
-            md:[border-right-width:1.5px] 
+            md:[border-top-width:1.5px]
+            md:[border-right-width:1.5px]
             md:[border-bottom-width:1.5px]
           "
             style={{
@@ -332,7 +314,15 @@ export default function Home() {
             <div className="p-4">
               {selectedJob ? (
                 <>
-                  <h2 className="text-xl font-bold">{selectedJob.title}</h2>
+                  <div className="flex justify-between items-start mb-4">
+                    <h2 className="text-xl font-bold">{selectedJob.title}</h2>
+                    <button
+                      onClick={() => router.push("/messages")}
+                      className="bg-[#50C878] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#3fa963] transition cursor-pointer"
+                    >
+                      Message
+                    </button>
+                  </div>
                   <p className="text-gray-600 mb-2">{selectedJob.company}</p>
                   <p>{selectedJob.description}</p>
                 </>
@@ -353,20 +343,30 @@ export default function Home() {
             body: {
               padding: 0,
             },
+            content: {
+              borderTopLeftRadius: 16,
+              borderTopRightRadius: 16,
+            },
           }}
         >
-          <div className="flex items-center justify-between px-4 py-4 bg-white  sticky top-0 z-10">
+          <div className="flex items-center justify-between px-4 py-3 bg-white  sticky top-0 z-10">
             <button
               onClick={onClose}
               className="text-gray-500 cursor-pointer hover:text-black"
             >
               <CloseOutlined style={{ fontSize: "20px" }} />
             </button>
+            <button
+              onClick={() => router.push("/messages")}
+              className="bg-[#50C878] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#3fa963] transition cursor-pointer"
+            >
+              Message
+            </button>
           </div>
 
           {/* Content */}
           <div
-            className="overflow-y-auto z-0 px-4"
+            className="overflow-y-auto z-0 px-4 pb-4"
             style={{ height: "calc(90vh - 56px)" }}
           >
             <h2 className="text-xl font-bold">{selectedJob?.title}</h2>

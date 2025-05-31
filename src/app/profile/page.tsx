@@ -5,7 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import Header from "../components/Header";
 
 export default function Profile() {
-  const { user, loading, logout } = useAuth();
+  const { user, logout } = useAuth();
 
   // Replace with real user data
   const userData = {
@@ -21,7 +21,7 @@ export default function Profile() {
 
   return (
     <>
-      <Header user={user} logout={logout} loading={loading} />
+      <Header user={user} logout={logout} />
 
       <div className="max-w-2xl mx-auto px-4 py-8">
         <div className="flex items-center gap-4 mb-6">
