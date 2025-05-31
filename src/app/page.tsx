@@ -226,19 +226,19 @@ export default function Home() {
       <main
         className={`
         flex-1 text-left
-        py-0 md:py-6
-        px-0 md:px-[clamp(1rem,2vw,10rem)]
+        py-0 sm:py-6
+        px-0 sm:px-[clamp(1rem,2vw,10rem)]
       `}
       >
-        <div className="mx-auto w-full max-w-[1280px] flex flex-col md:flex-row">
+        <div className="mx-auto w-full max-w-[1280px] flex flex-col sm:flex-row">
           {/* Job List */}
           <div
             id="scrollableDiv"
             className={`
             relative z-0 
-            w-full md:w-1/2 divide-y overflow-auto
-            border-0 md:border md:rounded-l-lg
-            md:[border-width:1.5px] md:border-gray-300
+            w-full sm:w-1/2 divide-y overflow-auto
+            border-0 sm:border sm:rounded-l-lg
+            sm:[border-width:1.5px] sm:border-gray-300
           `}
             style={{
               height: "85vh",
@@ -299,13 +299,13 @@ export default function Home() {
           {/* Detail View */}
           <div
             className="
-            hidden md:block md:w-1/2
-            md:border-t md:border-r md:border-b
-            md:border-gray-300
-            md:rounded-r-lg
-            md:[border-top-width:1.5px]
-            md:[border-right-width:1.5px]
-            md:[border-bottom-width:1.5px]
+            hidden sm:block sm:w-1/2
+            sm:border-t sm:border-r sm:border-b
+            sm:border-gray-300
+            sm:rounded-r-lg
+            sm:[border-top-width:1.5px]
+            sm:[border-right-width:1.5px]
+            sm:[border-bottom-width:1.5px]
           "
             style={{
               height: "85vh",

@@ -78,6 +78,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             access_type: "offline",
             prompt: "consent",
           },
+          // Explicitly request profile scope to get full_name
+          scopes: "openid email profile",
         },
       });
 
