@@ -201,7 +201,29 @@ export default function Home() {
     jobs[0]
   );
   const [open, setOpen] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  // Add scroll listener
+  useEffect(() => {
+    const scrollDiv = document.getElementById("scrollableDiv");
 
+    const handleScroll = () => {
+      if (scrollDiv) {
+        setShowScrollTop(scrollDiv.scrollTop > 200);
+      }
+    };
+
+    if (scrollDiv) {
+      scrollDiv.addEventListener("scroll", handleScroll);
+      return () => scrollDiv.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
+
+  const scrollToTop = () => {
+    const scrollDiv = document.getElementById("scrollableDiv");
+    if (scrollDiv) {
+      scrollDiv.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
   const showDrawer = () => {
     setOpen(true);
   };
@@ -216,7 +238,7 @@ export default function Home() {
     setDisplayedJobs(nextItems);
     setPage(nextPage);
   };
-  console.log(user);
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
@@ -236,7 +258,7 @@ export default function Home() {
             id="scrollableDiv"
             className={`
             relative z-0 
-            w-full sm:w-1/2 divide-y overflow-auto
+            w-full sm:w-1/2 overflow-auto
             border-0 sm:border sm:rounded-l-lg
             sm:[border-width:1.5px] sm:border-gray-300
           `}
@@ -296,6 +318,27 @@ export default function Home() {
               />
             </InfiniteScroll>
           </div>
+          {showScrollTop && (
+            <button
+              onClick={scrollToTop}
+              className="cursor-pointer sm:hidden fixed bottom-10 right-4 z-50 bg-[#50C878] text-white p-3 rounded-full shadow-lg hover:bg-[#3fa963] transition-all"
+              style={{ zIndex: 1000 }}
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 10l7-7m0 0l7 7m-7-7v18"
+                />
+              </svg>
+            </button>
+          )}
           {/* Detail View */}
           <div
             className="

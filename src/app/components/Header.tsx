@@ -1,9 +1,8 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
-import { MessageFilled } from "@ant-design/icons";
-import MenuDropDown from "./MenuDropDown";
+import { useRouter, usePathname } from "next/navigation";
+import { MessageTwoTone, PlusCircleTwoTone } from "@ant-design/icons";
 import AvatarDropdown from "./AvatarDropdown";
 
 interface HeaderProps {
@@ -13,6 +12,9 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ user, logout }) => {
   const router = useRouter();
+  const pathname = usePathname();
+
+  const isMessages = pathname === "/messages";
 
   return (
     <header
@@ -20,7 +22,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout }) => {
         paddingLeft: "clamp(1rem, 2vw, 10rem)",
         paddingRight: "clamp(1rem, 2vw, 10rem)",
       }}
-      className="sticky top-0 z-50 bg-white py-3 sm:py-4 shadow flex justify-between items-center"
+      className="sticky top-0 z-50 bg-white shadow flex justify-between items-center"
     >
       <div
         style={{ maxWidth: "1280px", width: "100%" }}
@@ -33,34 +35,65 @@ const Header: React.FC<HeaderProps> = ({ user, logout }) => {
           SanGig
         </button>
 
-        <div className="flex items-center ml-auto">
-          <button
-            onClick={() => router.push(user ? "/post" : "/sign-in")}
-            className="md:hidden bg-[#50C878] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#3fa963] transition cursor-pointer ml-4 mr-2 "
-          >
-            Post a job
-          </button>
+        <div className="flex items-center ml-auto ">
+          {/* Small screens - user logged in */}
+          {user && (
+            <div className="flex sm:hidden items-center gap-1">
+              <button
+                onClick={() => router.push("/post")}
+                className={`p-2 text-3xl cursor-pointer transition border-b-2 ${
+                  pathname === "/post"
+                    ? "border-[#50C878] text-[#50C878]"
+                    : "border-transparent text-gray-400 hover:border-[#50C878]"
+                }`}
+              >
+                <PlusCircleTwoTone twoToneColor="#50C878" />
+              </button>
+              <span
+                onClick={() => router.push("/messages")}
+                className={`p-2 text-3xl cursor-pointer transition border-b-2 ${
+                  isMessages
+                    ? "border-[#50C878] text-[#50C878]"
+                    : "border-transparent text-gray-400 hover:border-[#50C878]"
+                }`}
+              >
+                <MessageTwoTone twoToneColor="#50C878" />
+              </span>
+              <AvatarDropdown logout={logout} />
+            </div>
+          )}
 
-          {/* Mobile dropdown */}
-          <div className="md:hidden">
-            <MenuDropDown />
-          </div>
+          {/* Small screens - no user */}
+          {!user && (
+            <div className="flex sm:hidden items-center gap-3">
+              <button
+                onClick={() => router.push("/sign-in")}
+                className="bg-[#50C878] my-2 cursor-pointer text-white px-4 py-2 rounded-lg font-base hover:bg-[#3fa963] transition"
+              >
+                Post a job
+              </button>
+            </div>
+          )}
 
-          {/* Desktop menu */}
-          <div className="hidden md:flex items-center gap-5">
+          {/* Desktop screens */}
+          <div className="hidden sm:flex items-center gap-3">
             {user ? (
               <>
                 <span
                   onClick={() => router.push("/messages")}
-                  className="text-3xl cursor-pointer text-gray-400 transition hover:text-gray-700"
+                  className={`p-3 text-3xl cursor-pointer transition border-b-2 ${
+                    isMessages
+                      ? "border-[#50C878] text-[#50C878]"
+                      : "border-transparent text-gray-400 hover:border-[#50C878]"
+                  }`}
                 >
-                  <MessageFilled />
+                  <MessageTwoTone twoToneColor="#50C878" />
                 </span>
                 <AvatarDropdown logout={logout} />
-                <div className="h-8 border-l-2 border-gray-300 mr-2" />
+                <div className="h-8 border-l-2 border-gray-300 mx-4 mr-6" />
                 <button
                   onClick={() => router.push("/post")}
-                  className="bg-[#50C878] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#3fa963] transition cursor-pointer"
+                  className="bg-[#50C878] cursor-pointer text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#3fa963] transition"
                 >
                   Post a job
                 </button>
@@ -69,7 +102,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout }) => {
               <>
                 <button
                   onClick={() => router.push("/sign-in")}
-                  className="bg-[#50C878] text-white font-semibold px-4 py-2 rounded-lg hover:bg-[#3fa963] transition cursor-pointer ml-4"
+                  className="bg-[#50C878] my-3 text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#3fa963] transition"
                 >
                   Sign in
                 </button>
