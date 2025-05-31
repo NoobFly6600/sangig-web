@@ -299,7 +299,7 @@ export default function Home() {
                       selectedJob?.id === job.id ? "bg-gray-100" : ""
                     }`}
                   >
-                    <div className="px-4 py-2 w-full">
+                    <div className=" py-0 px-4 sm:py-2 w-full">
                       <List.Item.Meta
                         title={
                           <span className="font-semibold text-lg group-hover:underline">
@@ -355,10 +355,10 @@ export default function Home() {
               height: "85vh",
             }}
           >
-            <div className="p-4">
+            <div className="p-4 pt-0">
               {selectedJob ? (
                 <>
-                  <div className="flex justify-between items-start mb-4">
+                  <div className="bg-white py-4 flex justify-between items-start mb-4 sticky top-0 z-10">
                     <h2 className="text-xl font-bold">{selectedJob.title}</h2>
                     <button
                       onClick={() => router.push("/messages")}

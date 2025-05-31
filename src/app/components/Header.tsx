@@ -25,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout }) => {
     <header
       style={{
         paddingLeft: "clamp(1rem, 2vw, 10rem)",
-        paddingRight: "clamp(1rem, 2vw, 10rem)",
+        paddingRight: "clamp(0rem, 2vw, 10rem)",
       }}
       className="sticky top-0 z-50 bg-white shadow flex justify-between items-center"
     >

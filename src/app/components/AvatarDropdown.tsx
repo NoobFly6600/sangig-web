@@ -21,7 +21,9 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
     {
       key: "1",
       label: (
-        <div className="py-2 pr-30 text-base text-gray-500">{user?.email}</div>
+        <div className="py-2 text-base text-gray-500 pr-10 sm:pr-30">
+          {user?.email}
+        </div>
       ),
       disabled: true,
     },
