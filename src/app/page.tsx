@@ -349,6 +349,7 @@ export default function Home() {
             sm:[border-top-width:1.5px]
             sm:[border-right-width:1.5px]
             sm:[border-bottom-width:1.5px]
+            overflow-auto
           "
             style={{
               height: "85vh",
@@ -367,6 +368,35 @@ export default function Home() {
                     </button>
                   </div>
                   <p className="text-gray-600 mb-2">{selectedJob.company}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
+                  <p>{selectedJob.description}</p>
                   <p>{selectedJob.description}</p>
                 </>
               ) : (

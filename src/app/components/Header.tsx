@@ -2,7 +2,12 @@
 
 import React from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { MessageTwoTone, PlusCircleTwoTone } from "@ant-design/icons";
+import {
+  MessageOutlined,
+  MessageTwoTone,
+  PlusCircleOutlined,
+  PlusCircleTwoTone,
+} from "@ant-design/icons";
 import AvatarDropdown from "./AvatarDropdown";
 
 interface HeaderProps {
@@ -47,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout }) => {
                     : "border-transparent text-gray-400 hover:border-[#50C878]"
                 }`}
               >
-                <PlusCircleTwoTone twoToneColor="#50C878" />
+                <PlusCircleOutlined />
               </button>
               <span
                 onClick={() => router.push("/messages")}
@@ -57,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout }) => {
                     : "border-transparent text-gray-400 hover:border-[#50C878]"
                 }`}
               >
-                <MessageTwoTone twoToneColor="#50C878" />
+                <MessageOutlined />
               </span>
               <AvatarDropdown logout={logout} />
             </div>
@@ -68,7 +73,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout }) => {
             <div className="flex sm:hidden items-center gap-3">
               <button
                 onClick={() => router.push("/sign-in")}
-                className="bg-[#50C878] my-2 cursor-pointer text-white px-4 py-2 rounded-lg font-base hover:bg-[#3fa963] transition"
+                className="bg-[#50C878] my-2 cursor-pointer text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#3fa963] transition"
               >
                 Post a job
               </button>
@@ -87,7 +92,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout }) => {
                       : "border-transparent text-gray-400 hover:border-[#50C878]"
                   }`}
                 >
-                  <MessageTwoTone twoToneColor="#50C878" />
+                  <MessageOutlined />
                 </span>
                 <AvatarDropdown logout={logout} />
                 <div className="h-8 border-l-2 border-gray-300 mx-4 mr-6" />
@@ -102,7 +107,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout }) => {
               <>
                 <button
                   onClick={() => router.push("/sign-in")}
-                  className="bg-[#50C878] my-3 text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#3fa963] transition"
+                  className="cursor-pointer bg-[#50C878] my-3 text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#3fa963] transition"
                 >
                   Sign in
                 </button>
