@@ -21,7 +21,7 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
     {
       key: "1",
       label: (
-        <div className="py-2 text-base text-gray-500 pr-10 sm:pr-30">
+        <div className="py-0 sm:py-2 text-base text-gray-500 sm:pr-20">
           {user?.email}
         </div>
       ),
@@ -34,7 +34,7 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
       key: "2",
       label: (
         <div
-          className="py-2 text-base flex items-center gap-2"
+          className="py-0 sm:py-2 text-base flex items-center gap-2"
           onClick={() => router.push("/profile")}
         >
           <UserOutlined className="text-[16px]" />
@@ -48,7 +48,10 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
     {
       key: "3",
       label: (
-        <div className="py-2 text-base flex items-center gap-2">
+        <div
+          className="py-0 sm:py-2 text-base flex items-center gap-2"
+          onClick={() => router.push("/settings")}
+        >
           <SettingOutlined className="text-[16px]" />
           Settings
         </div>
@@ -60,7 +63,7 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
     {
       key: "4",
       label: (
-        <div className="py-2 text-base flex items-center gap-2">
+        <div className="py-0 sm:py-2 text-base flex items-center gap-2">
           <ScheduleOutlined className="text-[16px]" />
           Posted jobs
         </div>
@@ -73,7 +76,7 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
       key: "5",
       label: (
         <div
-          className="py-2 text-base text-red-600 font-medium flex items-center gap-2"
+          className="py-0 sm:py-2 text-base text-red-600 font-medium flex items-center gap-2"
           onClick={logout}
         >
           <LogoutOutlined className="text-[16px]" />

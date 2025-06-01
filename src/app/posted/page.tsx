@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
 import Header from "../components/Header";
 
-export default function Post() {
+export default function Posted() {
   const { user, logout } = useAuth();
   const [loading, setLoading] = useState(true);
 
@@ -16,7 +16,7 @@ export default function Post() {
         <Header user={user} logout={logout} />
         <div className="max-w-2xl mx-auto px-4 py-8">
           <p className="text-center text-gray-600">
-            Please sign in to post jobs.
+            Please sign in to view your posted jobs.
           </p>
         </div>
       </>

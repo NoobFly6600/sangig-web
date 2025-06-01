@@ -12,8 +12,8 @@ import { List, Drawer } from "antd";
 const jobs = [
   {
     id: "1",
-    title: "Frontend Developer",
-    company: "TechNova Inc.",
+    title: "Massage therapist",
+    company: "Hetyra Inc.",
     description:
       "We’re looking for a skilled Frontend Developer with experience in React and Tailwind CSS to help us build modern web applications.",
   },
@@ -299,7 +299,7 @@ export default function Home() {
                       selectedJob?.id === job.id ? "bg-gray-100" : ""
                     }`}
                   >
-                    <div className=" py-0 px-4 sm:py-2 w-full">
+                    <div className="py-1 px-4 sm:py-2 w-full">
                       <List.Item.Meta
                         title={
                           <span className="font-semibold text-lg group-hover:underline">

@@ -2,12 +2,7 @@
 
 import React from "react";
 import { useRouter, usePathname } from "next/navigation";
-import {
-  MessageOutlined,
-  MessageTwoTone,
-  PlusCircleOutlined,
-  PlusCircleTwoTone,
-} from "@ant-design/icons";
+import { MessageOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import AvatarDropdown from "./AvatarDropdown";
 
 interface HeaderProps {
@@ -20,7 +15,6 @@ const Header: React.FC<HeaderProps> = ({ user, logout }) => {
   const pathname = usePathname();
 
   const isMessages = pathname === "/messages";
-
   return (
     <header
       style={{
