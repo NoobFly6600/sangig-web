@@ -15,7 +15,6 @@ export type UserProfile = {
   skills?: string;
   education?: string;
   experience?: string;
-  created_at?: string;
 };
 
 export default function Profile() {
@@ -32,6 +31,7 @@ export default function Profile() {
       setLoading(false);
     }
   }, [user]);
+
   const handleSave = async (updatedProfile: UserProfile) => {
     if (!updatedProfile.id) {
       console.error("User ID is missing");
@@ -63,9 +63,7 @@ export default function Profile() {
       setLoading(true);
       const { data, error } = await supabase
         .from("users")
-        .select(
-          "id, email, name, about, skills, education, experience, created_at"
-        )
+        .select("id, name, about, skills, education, experience")
         .eq("id", user!.id)
         .single();
 
@@ -165,8 +163,8 @@ export default function Profile() {
             </div>
             <p className="sm:text-lg text-base text-gray-500">
               Member since{" "}
-              {userProfile?.created_at
-                ? new Date(userProfile.created_at).toLocaleDateString()
+              {user?.created_at
+                ? new Date(user.created_at).toLocaleDateString()
                 : "Unknown"}
             </p>
           </div>

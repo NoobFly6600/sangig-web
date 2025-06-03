@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import Header from "../components/Header";
 import { useRouter, useParams } from "next/navigation";
@@ -35,6 +35,7 @@ const mockChat = [
 export default function Messages() {
   const { user, logout } = useAuth();
   const router = useRouter();
+
   const [selectedConversation, setSelectedConversation] = React.useState<
     number | null
   >(null);

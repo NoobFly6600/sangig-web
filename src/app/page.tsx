@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
-
+import Image from "next/image";
 import Header from "./components/Header";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { LoadingOutlined, CloseOutlined } from "@ant-design/icons";
@@ -19,7 +19,8 @@ const jobs = [
   },
   {
     id: "2",
-    title: "Backend Engineer",
+    title:
+      "Seeking a Backend Engineer proficient in Node.js and PostgreSQL. Experience with cloud deployment is a plus.",
     company: "DataCloud Solutions",
     description:
       "Seeking a Backend Engineer proficient in Node.js and PostgreSQL. Experience with cloud deployment is a plus.",
@@ -202,6 +203,8 @@ export default function Home() {
   );
   const [open, setOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [loadingHeader, setLoadingHeader] = useState(true);
+
   // Add scroll listener
   useEffect(() => {
     const scrollDiv = document.getElementById("scrollableDiv");
@@ -217,7 +220,10 @@ export default function Home() {
       return () => scrollDiv.removeEventListener("scroll", handleScroll);
     }
   }, []);
-
+  useEffect(() => {
+    const timeout = setTimeout(() => setLoadingHeader(false), 300);
+    return () => clearTimeout(timeout);
+  }, []);
   const scrollToTop = () => {
     const scrollDiv = document.getElementById("scrollableDiv");
     if (scrollDiv) {
@@ -242,7 +248,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
-      <Header user={user} logout={logout} />
+      <Header user={user} logout={logout} loading={loadingHeader} />
 
       {/* Main Body */}
       <main
@@ -359,7 +365,9 @@ export default function Home() {
               {selectedJob ? (
                 <>
                   <div className="bg-white py-4 flex justify-between items-start mb-4 sticky top-0 z-10">
-                    <h2 className="text-xl font-bold">{selectedJob.title}</h2>
+                    <h2 className="text-xl font-bold pr-4">
+                      {selectedJob.title}
+                    </h2>
                     <button
                       onClick={() => router.push("/messages")}
                       className="bg-[#50C878] text-white px-4 py-2 rounded-full font-semibold hover:bg-[#3fa963] transition cursor-pointer"
@@ -443,37 +451,15 @@ export default function Home() {
             style={{ height: "calc(90vh - 56px)" }}
           >
             <h2 className="text-xl font-bold">{selectedJob?.title}</h2>
-            <p className="text-gray-600 mb-2">{selectedJob?.company}</p>
-            <p>{selectedJob?.description}</p>
-            <h2 className="text-xl font-bold">{selectedJob?.title}</h2>
-            <p className="text-gray-600 mb-2">{selectedJob?.company}</p>
-            <p>{selectedJob?.description}</p>
-            <h2 className="text-xl font-bold">{selectedJob?.title}</h2>
-            <p className="text-gray-600 mb-2">{selectedJob?.company}</p>
-            <p>{selectedJob?.description}</p>
-            <h2 className="text-xl font-bold">{selectedJob?.title}</h2>
-            <p className="text-gray-600 mb-2">{selectedJob?.company}</p>
-            <p>{selectedJob?.description}</p>
-            <h2 className="text-xl font-bold">{selectedJob?.title}</h2>
-            <p className="text-gray-600 mb-2">{selectedJob?.company}</p>
-            <p>{selectedJob?.description}</p>
-            <h2 className="text-xl font-bold">{selectedJob?.title}</h2>
-            <p className="text-gray-600 mb-2">{selectedJob?.company}</p>
-            <p>{selectedJob?.description}</p>
-            <h2 className="text-xl font-bold">{selectedJob?.title}</h2>
-            <p className="text-gray-600 mb-2">{selectedJob?.company}</p>
-            <p>{selectedJob?.description}</p>
-            <h2 className="text-xl font-bold">{selectedJob?.title}</h2>
-            <p className="text-gray-600 mb-2">{selectedJob?.company}</p>
-            <p>{selectedJob?.description}</p>
-            <h2 className="text-xl font-bold">{selectedJob?.title}</h2>
-            <p className="text-gray-600 mb-2">{selectedJob?.company}</p>
-            <p>{selectedJob?.description}</p>
-            <h2 className="text-xl font-bold">{selectedJob?.title}</h2>
-            <p className="text-gray-600 mb-2">{selectedJob?.company}</p>
-            <p>{selectedJob?.description}</p>
-            <h2 className="text-xl font-bold">{selectedJob?.title}</h2>
-            <p className="text-gray-600 mb-2">{selectedJob?.company}</p>
+            <div className="flex items-center gap-4">
+              <p className="text-gray-600 mb-2">{selectedJob?.company}</p>
+              <Image
+                src="/default-avatar.png"
+                alt="User Avatar"
+                width={80}
+                height={80}
+              />
+            </div>
             <p>{selectedJob?.description}</p>
           </div>
         </Drawer>

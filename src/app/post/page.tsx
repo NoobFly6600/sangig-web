@@ -8,7 +8,6 @@ import Header from "../components/Header";
 
 export default function Post() {
   const { user, logout } = useAuth();
-  const [loading, setLoading] = useState(true);
 
   if (!user) {
     return (
