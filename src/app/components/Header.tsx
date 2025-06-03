@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
         paddingLeft: "clamp(1rem, 2vw, 10rem)",
         paddingRight: "clamp(0rem, 2vw, 10rem)",
       }}
-      className="sticky top-0 z-50 bg-white shadow flex justify-between items-center"
+      className="sticky  top-0 z-50 bg-white shadow flex justify-between items-center"
     >
       <div
         style={{ maxWidth: "1280px", width: "100%" }}
@@ -41,10 +41,10 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
             <>
               {/* Small screens */}
               {user ? (
-                <div className="flex sm:hidden items-center gap-1">
+                <div className="flex sm:hidden items-center gap-1.5">
                   <button
                     onClick={() => router.push("/post")}
-                    className={`p-2 text-2xl cursor-pointer transition border-b-2 ${
+                    className={`p-2 text-3xl cursor-pointer transition border-b-2 ${
                       pathname === "/post"
                         ? "border-[#50C878] text-[#50C878]"
                         : "border-transparent text-gray-400 hover:border-[#50C878]"
@@ -54,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
                   </button>
                   <span
                     onClick={() => router.push("/messages")}
-                    className={`p-2 text-2xl cursor-pointer transition border-b-2 ${
+                    className={`p-2 text-3xl cursor-pointer transition border-b-2 ${
                       pathname === "/messages"
                         ? "border-[#50C878] text-[#50C878]"
                         : "border-transparent text-gray-400 hover:border-[#50C878]"
@@ -76,12 +76,12 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
               )}
 
               {/* Desktop screens */}
-              <div className="hidden sm:flex items-center gap-3">
+              <div className="hidden  sm:flex items-center gap-3">
                 {user ? (
                   <>
                     <span
                       onClick={() => router.push("/messages")}
-                      className={`p-3 text-3xl cursor-pointer transition border-b-2 ${
+                      className={`p-3  text-3xl cursor-pointer transition border-b-2 ${
                         pathname === "/messages"
                           ? "border-[#50C878] text-[#50C878]"
                           : "border-transparent text-gray-400 hover:border-[#50C878]"
