@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
@@ -11,6 +11,7 @@ import EditProfileModal from "../components/EditProfileModal";
 export type UserProfile = {
   id?: string; // optional here
   name?: string;
+  avatar_url?: string;
   about?: string;
   skills?: string;
   education?: string;
@@ -23,6 +24,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showEditModal, setShowEditModal] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (user) {
@@ -31,6 +33,71 @@ export default function Profile() {
       setLoading(false);
     }
   }, [user]);
+  const handleAvatarUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (!file || !user) return;
+
+    try {
+      const {
+        data: { user: authUser },
+      } = await supabase.auth.getUser();
+      if (!authUser) return;
+
+      // Check if user exists in database
+      const { data: existingUser } = await supabase
+        .from("users")
+        .select("id")
+        .eq("id", user.id)
+        .single();
+
+      // Get file extension properly
+      const originalName = file.name;
+      const lastDotIndex = originalName.lastIndexOf(".");
+      const fileExtension =
+        lastDotIndex > -1 ? originalName.substring(lastDotIndex + 1) : "";
+
+      const timestamp = Date.now();
+      const finalFileName = `avatar_${timestamp}.${fileExtension.toLowerCase()}`;
+      const filePath = `${authUser.id}/${finalFileName}`;
+
+      // Upload file to storage
+      const { error: uploadError } = await supabase.storage
+        .from("avatars")
+        .upload(filePath, file, { upsert: true });
+
+      if (uploadError) return;
+
+      // Get public URL
+      const { data: publicUrlData } = supabase.storage
+        .from("avatars")
+        .getPublicUrl(filePath);
+
+      const avatarUrl = publicUrlData?.publicUrl;
+
+      if (avatarUrl) {
+        if (existingUser) {
+          // User exists, update
+          await supabase
+            .from("users")
+            .update({ avatar_url: avatarUrl })
+            .eq("id", authUser.id);
+        } else {
+          // User doesn't exist, upsert
+          await supabase.from("users").upsert({
+            id: authUser.id,
+            avatar_url: avatarUrl,
+            email: authUser.email,
+          });
+        }
+
+        fetchUserProfile();
+      }
+    } catch (error) {
+      // Handle error silently or show user-friendly message
+    }
+  };
 
   const handleSave = async (updatedProfile: UserProfile) => {
     if (!updatedProfile.id) {
@@ -63,7 +130,7 @@ export default function Profile() {
       setLoading(true);
       const { data, error } = await supabase
         .from("users")
-        .select("id, name, about, skills, education, experience")
+        .select("id, name, avatar_url, about, skills, education, experience")
         .eq("id", user!.id)
         .single();
 
@@ -138,13 +205,25 @@ export default function Profile() {
     <>
       <Header user={user} logout={logout} />
       <div className="max-w-3xl mx-auto px-2 sm:px-4 py-2 sm:py-8">
-        <div className="flex items-center gap-1 sm:gap-4 sm:mb-6">
-          <Image
-            src="/default-avatar.png"
-            alt="User Avatar"
-            width={120}
-            height={120}
-            className="rounded-full  w-20 h-20 sm:w-[120px] sm:h-[120px]"
+        <div className="p-4 sm:p-0 flex items-center gap-1 sm:gap-4 sm:mb-6">
+          <div
+            className="mr-4 sm:mr-2 w-15 h-15 sm:w-[100px] sm:h-[100px] rounded-full overflow-hidden cursor-pointer flex-shrink-0"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <Image
+              src={userProfile?.avatar_url || "/default-avatar.png"}
+              alt="User Avatar"
+              width={100}
+              height={100}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            ref={fileInputRef}
+            onChange={handleAvatarUpload}
           />
           <div className="w-full ">
             {/* Make this div take full width */}
@@ -171,7 +250,7 @@ export default function Profile() {
         </div>
 
         <div
-          className="   border-0 sm:border sm:rounded-l-lg
+          className="border-0 sm:border sm:rounded-l-lg
             sm:[border-width:1.5px] sm:border-gray-300 rounded-lg p-4 sm:p-6 "
         >
           <div className="space-y-3">

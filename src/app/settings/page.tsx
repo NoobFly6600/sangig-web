@@ -12,7 +12,10 @@ export default function Settings() {
   const [loading, setLoading] = useState(false);
 
   const handleChangeEmail = async () => {
-    if (!newEmail) return;
+    if (!newEmail) {
+      setStatus("Please enter a new email address.");
+      return;
+    }
 
     setLoading(true);
     setStatus("");
@@ -27,10 +30,12 @@ export default function Settings() {
         throw authError;
       }
 
-      setStatus("Email updated. Please confirm via your inbox.");
+      setStatus(
+        "To complete the email update, you must click the confirmation links sent to both your current and new email addresses."
+      );
       setNewEmail("");
     } catch (error: any) {
-      setStatus(`${error.message}`);
+      setStatus(`Error: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -40,7 +45,7 @@ export default function Settings() {
     return (
       <>
         <Header user={user} logout={logout} />
-        <div className="max-w-2xl mx-auto px-4 py-8">
+        <div className="max-w-2xl mx-auto px-4 py-40">
           <p className="text-center text-gray-600">
             Please sign in to change settings
           </p>
@@ -53,28 +58,29 @@ export default function Settings() {
     <>
       <Header user={user} logout={logout} />
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <h2 className="text-2xl font-bold mb-4">Settings</h2>
-        <div className="mb-6">
+        <h2 className="text-2xl font-bold mb-4">Account settings</h2>
+        <div className="mb-2">
           <label htmlFor="email" className="block mb-2 font-semibold">
-            Change Email
+            Email address
           </label>
           <input
             type="email"
             id="email"
-            className="border border-gray-300 p-2 rounded w-full max-w-md"
+            className="border border-gray-300 rounded-lg px-3 py-2 w-full max-w-md font-base my-2 focus:outline-none focus:border-[#50C878]"
             placeholder={user.email}
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value)}
           />
-          <button
-            onClick={handleChangeEmail}
-            className="mt-3 px-4 py-2 bg-[#50C878] text-white rounded hover:bg-[#3fa963] disabled:opacity-50"
-            disabled={loading}
-          >
-            {loading ? "Updating..." : "Update Email"}
-          </button>
+
           {status && <p className="mt-3 text-sm text-gray-700">{status}</p>}
         </div>
+        <button
+          onClick={handleChangeEmail}
+          className="mt-3 cursor-pointer px-4 py-2 bg-[#50C878] text-white rounded-lg hover:bg-[#3fa963] disabled:opacity-50"
+          disabled={loading}
+        >
+          {loading ? "Updating..." : "Update Email"}
+        </button>
       </div>
     </>
   );

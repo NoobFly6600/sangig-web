@@ -10,25 +10,96 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const { sendMagicLink, signInWithGoogle } = useAuth();
 
+  const lang =
+    typeof window !== "undefined" ? localStorage.getItem("language") : "en";
+
+  const t = {
+    signInTitle:
+      lang === "zh" ? "登录" : lang === "fr" ? "Se connecter" : "Sign in",
+    tagline:
+      lang === "zh"
+        ? "找工作、找零工，直接联系雇主，或发布工作、雇佣人才"
+        : lang === "fr"
+        ? "Connectez-vous pour découvrir des emplois, contacter les employeurs ou publier des offres."
+        : "Sign in to discover jobs and gigs, message employers directly, or post jobs, hire talent, and more.",
+    emailPlaceholder:
+      lang === "zh"
+        ? "请输入电子邮箱"
+        : lang === "fr"
+        ? "Entrez votre e-mail"
+        : "Enter your email",
+    continue: lang === "zh" ? "继续" : lang === "fr" ? "Continuer" : "Continue",
+    or: lang === "zh" ? "或" : lang === "fr" ? "ou" : "or",
+    continueWithGoogle:
+      lang === "zh"
+        ? "使用 Google 登录"
+        : lang === "fr"
+        ? "Continuer avec Google"
+        : "Continue with Google",
+    terms:
+      lang === "zh"
+        ? "创建账户或登录，即表示您理解并同意 SanGig 的条款，并知晓我们的 Cookie 和隐私政策"
+        : lang === "fr"
+        ? "En créant un compte ou en vous connectant, vous acceptez les conditions de SanGig et reconnaissez nos politiques de cookies et de confidentialité."
+        : "By creating an account or signing in, you understand and agree to SanGig's Terms. You also acknowledge our Cookie and Privacy policies.",
+    checkYourEmail:
+      lang === "zh"
+        ? "请检查您的电子邮件"
+        : lang === "fr"
+        ? "Vérifiez votre e-mail"
+        : "Check your email",
+    linkSentMessage:
+      lang === "zh"
+        ? `我们已向 ${email} 发送登录链接，请点击链接登录`
+        : lang === "fr"
+        ? `Nous avons envoyé un lien de connexion à ${email}. Cliquez sur le lien dans votre boîte de réception pour vous connecter.`
+        : `We've sent a login link to ${email}. Click the link in your inbox to sign in.`,
+    invalidEmail:
+      lang === "zh"
+        ? "请输入有效的电子邮箱地址"
+        : lang === "fr"
+        ? "Veuillez entrer une adresse e-mail valide."
+        : "Please enter a valid email address.",
+    emailRateLimit:
+      lang === "zh"
+        ? "发送过多，请稍后再试"
+        : lang === "fr"
+        ? "Trop de demandes. Veuillez réessayer plus tard."
+        : "Too many emails sent. Please wait before trying again.",
+    emailNotConfirmed:
+      lang === "zh"
+        ? "请检查您的电子邮件并点击确认链接"
+        : lang === "fr"
+        ? "Veuillez vérifier votre e-mail et cliquer sur le lien de confirmation."
+        : "Please check your email and click the confirmation link.",
+    invalidCredentials:
+      lang === "zh"
+        ? "邮箱或密码错误，请重试"
+        : lang === "fr"
+        ? "Identifiants invalides. Veuillez réessayer."
+        : "Invalid email or password. Please try again.",
+  };
+
   const parseSupabaseAuthError = (error: any) => {
     if (!error) return null;
 
     switch (error.message) {
       case "Invalid email":
-        return "Please enter a valid email address.";
+        return t.invalidEmail;
       case "Email rate limit exceeded":
-        return "Too many emails sent. Please wait before trying again.";
+        return t.emailRateLimit;
       case "Email not confirmed":
-        return "Please check your email and click the confirmation link.";
+        return t.emailNotConfirmed;
       case "Invalid login credentials":
-        return "Invalid email or password. Please try again.";
+        return t.invalidCredentials;
       default:
         return error.message;
     }
   };
+
   const handleSendLink = async () => {
     if (!email) {
-      setError("Please enter your email address");
+      setError(t.invalidEmail);
       return;
     }
 
@@ -45,7 +116,6 @@ export default function SignIn() {
     }
   };
 
-  // Updated Google sign-in handler
   const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
@@ -65,46 +135,46 @@ export default function SignIn() {
         <>
           <h1 className="text-3xl font-bold mb-15">SanGig</h1>
           <p className="text-gray-500 w-full max-w-md text-center">
-            Sign in to discover jobs and gigs, message employers directly, or
-            post jobs, hire talent, and more.
+            {t.tagline}
           </p>
           <input
             type="email"
-            placeholder="Enter your email"
+            placeholder={t.emailPlaceholder}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="border-gray-300 rounded-lg px-3 py-2 w-full max-w-md my-2 focus:outline-none focus:border-[#50C878]"
             style={{ borderWidth: "1.5px" }}
-            className=" border-gray-300 rounded-lg px-3 py-2 w-full max-w-md  font-base my-2 focus:outline-none focus:border-[#50C878]"
           />
           {error && (
-            <div className="w-full max-w-md">
-              <p className="text-base text-red-600 text-left">{error}</p>
-            </div>
+            <p className="text-base text-red-600 w-full max-w-md text-left">
+              {error}
+            </p>
           )}
           <button
             onClick={handleSendLink}
-            className="w-full mt-2 max-w-md bg-[#50C878] text-white py-2 rounded-lg font-semibold  hover:bg-[#3fa963] transition cursor-pointer"
+            className="w-full mt-2 max-w-md bg-[#50C878] text-white py-2 rounded-lg font-semibold hover:bg-[#3fa963] transition cursor-pointer"
           >
-            Continue
+            {t.continue}
           </button>
 
           <div className="flex items-center w-full max-w-md my-2 text-gray-500 font-medium">
             <div className="flex-grow border border-gray-300" />
-            <span className="mx-3">or</span>
+            <span className="mx-3">{t.or}</span>
             <div className="flex-grow border border-gray-300" />
           </div>
 
           <button
             onClick={handleGoogleSignIn}
+            className="relative flex items-center justify-center w-full max-w-md py-2 px-4 mb-4 border-gray-300 rounded-lg bg-white font-semibold transition hover:bg-[#e8f8f1] hover:border-[#50C878] cursor-pointer"
             style={{ borderWidth: "1.5px" }}
-            className="relative flex items-center justify-center w-full max-w-md py-2 px-4 mb-4  border-gray-300 rounded-lg bg-white font-semibold transition hover:bg-[#e8f8f1] hover:border-[#50C878] cursor-pointer"
           >
             <div className="absolute left-4 w-5 h-5 min-w-[20px]">
               <svg
-                xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 48 48"
                 className="w-full h-full"
+                xmlns="http://www.w3.org/2000/svg"
               >
+                {/* Google Logo Paths */}
                 <path
                   fill="#EA4335"
                   d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
@@ -121,26 +191,19 @@ export default function SignIn() {
                   fill="#34A853"
                   d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
                 />
-                <path fill="none" d="M0 0h48v48H0z" />
               </svg>
             </div>
-            <span className="ml-8">Continue with Google</span>
+            <span className="ml-8">{t.continueWithGoogle}</span>
           </button>
-          <div className="w-full max-w-md text-sm text-gray-600">
-            <p>
-              By creating an account or signing in, you understand and agree to
-              SanGig's Terms. You also acknowledge our Cookie and Privacy
-              policies.
-            </p>
+
+          <div className="w-full max-w-md text-sm text-gray-600 text-center">
+            <p>{t.terms}</p>
           </div>
         </>
       ) : (
         <div className="w-full max-w-md text-center mt-10">
-          <h2 className="text-2xl font-semibold mb-4">Check your email</h2>
-          <p className="text-gray-600">
-            We've sent a login link to <strong>{email}</strong>. Click the link
-            in your inbox to sign in.
-          </p>
+          <h2 className="text-2xl font-semibold mb-4">{t.checkYourEmail}</h2>
+          <p className="text-gray-600">{t.linkSentMessage}</p>
         </div>
       )}
     </div>

@@ -47,14 +47,14 @@ export default function Messages() {
   return (
     <div>
       <Header user={user} logout={logout} />
-      <main className="flex-1 text-left py-0 md:py-6 px-0 md:px-[clamp(1rem,2vw,10rem)]">
-        <div className="mx-auto w-full max-w-[1280px] flex flex-col md:flex-row">
+      <main className="flex-1 text-left py-0 sm:py-6 px-0 sm:px-[clamp(1rem,2vw,10rem)]">
+        <div className="mx-auto w-full max-w-[1200px] flex flex-col sm:flex-row">
           {/* Conversation List */}
           <div
             className={`
-            relative z-0 w-full md:w-1/2 divide-y border-0
-            md:overflow-y-auto
-            md:border md:rounded-l-lg md:[border-width:1.5px] md:border-gray-300
+            relative z-0 w-full sm:w-1/2 divide-y border-0
+            sm:overflow-y-auto
+            sm:border sm:rounded-l-lg  sm:border-gray-300
           `}
             style={{ height: "85vh" }}
           >
@@ -62,7 +62,7 @@ export default function Messages() {
               <div
                 key={conv.id}
                 onClick={() => {
-                  if (window.innerWidth < 768) {
+                  if (window.innerWidth < 640) {
                     router.push(`/chat/${conv.id}`);
                   } else {
                     setSelectedConversation(conv.id); // for desktop
@@ -80,7 +80,7 @@ export default function Messages() {
 
           {/* Chat Box */}
           <div
-            className="hidden md:block md:w-1/2 md:border-t md:border-r md:border-b md:border-gray-300 md:rounded-r-lg md:[border-top-width:1.5px] md:[border-right-width:1.5px] md:[border-bottom-width:1.5px]"
+            className="hidden sm:block sm:w-1/2 sm:border-t sm:border-r sm:border-b sm:border-gray-300 sm:rounded-r-lg  "
             style={{ height: "85vh" }}
           >
             <div className="p-4 h-full flex flex-col">
@@ -108,7 +108,7 @@ export default function Messages() {
                       type="text"
                       placeholder="Type a message..."
                       style={{ borderWidth: "1.5px" }}
-                      className=" border-gray-300 rounded-lg px-3 py-2 w-full max-w-md  font-base my-2 focus:outline-none focus:border-black"
+                      className=" border-gray-300 rounded-lg px-3 py-2 w-full max-w-sm  font-base my-2 focus:outline-none focus:border-black"
                     />
                   </div>
                 </>

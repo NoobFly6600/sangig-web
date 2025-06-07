@@ -204,7 +204,6 @@ export default function Home() {
   const [open, setOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [loadingHeader, setLoadingHeader] = useState(true);
-
   // Add scroll listener
   useEffect(() => {
     const scrollDiv = document.getElementById("scrollableDiv");
@@ -258,7 +257,7 @@ export default function Home() {
         px-0 sm:px-[clamp(1rem,2vw,10rem)]
       `}
       >
-        <div className="mx-auto w-full max-w-[1280px] flex flex-col sm:flex-row">
+        <div className="mx-auto w-full max-w-[1200px] flex flex-col sm:flex-row">
           {/* Job List */}
           <div
             id="scrollableDiv"
@@ -266,7 +265,7 @@ export default function Home() {
             relative z-0 
             w-full sm:w-1/2 overflow-auto
             border-0 sm:border sm:rounded-l-lg
-            sm:[border-width:1.5px] sm:border-gray-300
+            sm:border sm:border-gray-300
           `}
             style={{
               height: "85vh",
@@ -294,7 +293,7 @@ export default function Home() {
                   <List.Item
                     key={job.id}
                     onClick={() => {
-                      if (window.innerWidth < 768) {
+                      if (window.innerWidth < 640) {
                         setSelectedJob(job);
                         showDrawer();
                       } else {
@@ -352,10 +351,8 @@ export default function Home() {
             sm:border-t sm:border-r sm:border-b
             sm:border-gray-300
             sm:rounded-r-lg
-            sm:[border-top-width:1.5px]
-            sm:[border-right-width:1.5px]
-            sm:[border-bottom-width:1.5px]
             overflow-auto
+      
           "
             style={{
               height: "85vh",
