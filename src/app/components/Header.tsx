@@ -54,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
       >
         <button
           onClick={() => router.push("/")}
-          className=" text-2xl sm:text-3xl font-bold text-[#50C878] cursor-pointer focus:outline-none hover:text-[#3fa963]"
+          className="py-2 text-2xl sm:text-3xl font-bold text-[#50C878] cursor-pointer focus:outline-none hover:text-[#3fa963]"
         >
           {selectedLanguage === "zh" ? "闪职" : "Sangig"}
         </button>
@@ -69,7 +69,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
                   <>
                     <span
                       onClick={() => router.push("/messages")}
-                      className={`p-1 sm:p-3 text-2xl sm:text-3xl cursor-pointer transition border-b-2 ${
+                      className={`p-2 sm:p-3 text-2xl sm:text-3xl cursor-pointer transition border-b-2 ${
                         pathname === "/messages"
                           ? "border-[#50C878] text-[#50C878]"
                           : "border-transparent text-gray-400 hover:border-[#50C878]"
@@ -110,8 +110,8 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
                     <button
                       onClick={() => router.push("/sign-in")}
                       className="bg-[#50C878] text-white cursor-pointer transition hover:bg-[#3fa963]
-                      px-3 py-1 my-1.5 text-base font-medium
-                      sm:px-5 sm:py-1.5 sm:my-2.5 sm:text-lg sm:font-semibold
+                      px-3 py-1 my-2 text-base font-medium
+                      sm:px-5 sm:py-1.5 sm:my-3 sm:text-lg sm:font-semibold
                       rounded-lg"
                     >
                       {selectedLanguage === "zh"
