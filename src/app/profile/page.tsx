@@ -207,7 +207,7 @@ export default function Profile() {
       <div className="max-w-3xl mx-auto px-2 sm:px-4 py-2 sm:py-8">
         <div className="p-4 sm:p-0 flex items-center gap-1 sm:gap-4 sm:mb-6">
           <div
-            className="mr-4 sm:mr-2 w-15 h-15 sm:w-[100px] sm:h-[100px] rounded-full overflow-hidden cursor-pointer flex-shrink-0"
+            className="mr-3 sm:mr-2 w-15 h-15 sm:w-[100px] sm:h-[100px] rounded-full overflow-hidden cursor-pointer flex-shrink-0"
             onClick={() => fileInputRef.current?.click()}
           >
             <Image
@@ -235,7 +235,7 @@ export default function Profile() {
               {/* Show only on small and up */}
               <button
                 onClick={() => setShowEditModal(true)}
-                className=" text-base bg-[#50C878]  cursor-pointer text-white px-4 sm:mr-0 mr-2 py-1 sm:px-5 sm:py-2 rounded-full font-semibold hover:bg-[#3fa963] transition"
+                className=" text-base bg-[#50C878]  cursor-pointer text-white px-4 py-1 sm:px-5 sm:py-2 rounded-full font-semibold hover:bg-[#3fa963] transition"
               >
                 Edit
               </button>
