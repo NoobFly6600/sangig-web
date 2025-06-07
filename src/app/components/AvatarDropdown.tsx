@@ -124,7 +124,7 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
             alt="Account"
             width={45}
             height={45}
-            className="rounded-full mb-0.5 sm:mb-0 cursor-pointer w-9 h-9 sm:w-[45px] sm:h-[45px]"
+            className="rounded-full cursor-pointer w-9 h-9 sm:w-[45px] sm:h-[45px]"
           />
         </a>
       </Dropdown>

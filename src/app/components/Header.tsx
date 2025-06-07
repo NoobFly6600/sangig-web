@@ -69,7 +69,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
                   <>
                     <span
                       onClick={() => router.push("/messages")}
-                      className={`p-2 sm:p-3 text-2xl sm:text-3xl cursor-pointer transition border-b-2 ${
+                      className={`p-2 pt-2.5 sm:p-3 text-2xl sm:text-3xl cursor-pointer transition border-b-2 ${
                         pathname === "/messages"
                           ? "border-[#50C878] text-[#50C878]"
                           : "border-transparent text-gray-400 hover:border-[#50C878]"
