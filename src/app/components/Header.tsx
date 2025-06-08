@@ -97,7 +97,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
                   <>
                     <button
                       onClick={() => setLanguageModalOpen(true)}
-                      className="px-2 py-1 text-base font-medium mr-1
+                      className="px-2 py-1 text-base font-medium mr-1 
                       sm:px-3 sm:py-1.5 sm:text-lg sm:font-semibold rounded-lg  text-gray-400 hover:text-black hover:bg-gray-100 transition cursor-pointer"
                     >
                       {selectedLanguage === "zh"
@@ -165,9 +165,9 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
                 localStorage.setItem("language", lang.code);
                 window.location.reload();
               }}
-              className={`cursor-pointer px-4 py-2 rounded-md border ${
+              className={`cursor-pointer px-4 py-2 rounded-md border text-center ${
                 selectedLanguage === lang.code
-                  ? "bg-[#50c878] text-white "
+                  ? "bg-[#50c878] text-white"
                   : "border-gray-300 text-gray-800 hover:bg-gray-100"
               }`}
             >

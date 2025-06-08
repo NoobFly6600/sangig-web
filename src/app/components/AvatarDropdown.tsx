@@ -175,9 +175,9 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
                 localStorage.setItem("language", lang.code);
                 window.location.reload();
               }}
-              className={`cursor-pointer px-4 py-2 rounded-md border ${
+              className={`cursor-pointer px-4 py-2 rounded-md border text-center ${
                 selectedLanguage === lang.code
-                  ? "bg-[#50c878] text-white "
+                  ? "bg-[#50c878] text-white"
                   : "border-gray-300 text-gray-800 hover:bg-gray-100"
               }`}
             >
