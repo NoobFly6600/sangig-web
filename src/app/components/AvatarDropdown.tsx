@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   LogoutOutlined,
   SettingOutlined,
@@ -13,6 +13,7 @@ import type { MenuProps } from "antd";
 import { Dropdown, Modal } from "antd";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
   const lang = localStorage.getItem("language");
@@ -23,6 +24,10 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
   const [selectedLanguage, setSelectedLanguage] = React.useState(
     () => localStorage.getItem("language") || "en"
   );
+  const [avatarUrl, setAvatarUrl] = useState("");
+  useEffect(() => {
+    fetchAvatar();
+  }, []);
   const t = {
     profile: lang === "zh" ? "个人资料" : lang === "fr" ? "Profil" : "Profile",
     settings:
@@ -114,18 +119,34 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
       ),
     },
   ];
+  const fetchAvatar = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("users")
+        .select("avatar_url")
+        .eq("id", user!.id)
+        .single();
 
+      if (error) throw error;
+
+      setAvatarUrl(data.avatar_url);
+    } catch (error) {
+      console.error("Failed to fetch avatar:", error);
+    }
+  };
   return (
     <>
       <Dropdown menu={{ items }} trigger={["hover"]} placement="bottomRight">
         <a onClick={(e) => e.preventDefault()}>
-          <Image
-            src="/default-avatar.png"
-            alt="Account"
-            width={45}
-            height={45}
-            className="rounded-full cursor-pointer w-9 h-9 sm:w-[45px] sm:h-[45px]"
-          />
+          <div className=" w-6.5 h-6.5 sm:w-[32px] mx-1.5 sm:mx-0 sm:h-[32px] rounded-full overflow-hidden cursor-pointer flex-shrink-0">
+            <Image
+              src={avatarUrl || "/default-avatar.png"}
+              alt="User Avatar"
+              width={100}
+              height={100}
+              className="w-full h-full object-cover"
+            />
+          </div>
         </a>
       </Dropdown>
       <Modal
@@ -140,7 +161,7 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
         onCancel={() => setLanguageModalOpen(false)}
         footer={null}
         centered
-        width={360}
+        width={240}
       >
         <div className="space-y-2 ">
           {[

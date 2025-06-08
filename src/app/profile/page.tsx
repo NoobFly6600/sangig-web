@@ -251,7 +251,7 @@ export default function Profile() {
 
         <div
           className="border-0 sm:border sm:rounded-l-lg
-            sm:[border-width:1.5px] sm:border-gray-300 rounded-lg p-4 sm:p-6 "
+             sm:border-gray-300 rounded-lg p-4 sm:p-6 "
         >
           <div className="space-y-3">
             <ProfileField label="About" value={userProfile?.about} />

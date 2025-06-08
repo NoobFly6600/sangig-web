@@ -39,7 +39,7 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
         <div key={field} className="mb-4">
           <label className="block font-semibold capitalize mb-1">{field}</label>
           <textarea
-            className="w-full [border-width:1.5px] border-gray-300 rounded-md p-2 text-base focus:outline-none focus:[border-width:1.5px] focus:border-[#50C878]"
+            className="w-full border border-gray-300 rounded-md p-2 text-base focus:outline-none  focus:border-[#50C878]"
             value={formData[field as keyof UserProfile] || ""}
             onChange={(e) =>
               handleChange(field as keyof UserProfile, e.target.value)
