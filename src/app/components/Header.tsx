@@ -6,6 +6,7 @@ import {
   GlobalOutlined,
   MessageOutlined,
   PlusCircleOutlined,
+  TranslationOutlined,
 } from "@ant-design/icons";
 import AvatarDropdown from "./AvatarDropdown";
 import { Modal } from "antd";
@@ -97,14 +98,10 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
                   <>
                     <button
                       onClick={() => setLanguageModalOpen(true)}
-                      className="px-2 py-1 text-base font-medium mr-1 
-                      sm:px-3 sm:py-1.5 sm:text-lg sm:font-semibold rounded-lg  text-gray-400 hover:text-black hover:bg-gray-100 transition cursor-pointer"
+                      className="px-2 py-1 text-lg  mr-1 
+                      sm:px-3 sm:py-1.5 sm:text-2xl  rounded-lg  text-gray-400 hover:text-black hover:bg-gray-100 transition cursor-pointer"
                     >
-                      {selectedLanguage === "zh"
-                        ? "中"
-                        : selectedLanguage === "fr"
-                        ? "Fr"
-                        : "En"}
+                      <TranslationOutlined />
                     </button>
 
                     <button

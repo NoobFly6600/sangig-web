@@ -6,6 +6,7 @@ import {
   UserOutlined,
   ScheduleOutlined,
   GlobalOutlined,
+  TranslationOutlined,
 } from "@ant-design/icons";
 import { useAuth } from "@/context/AuthContext";
 
@@ -100,7 +101,7 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
           className="py-0 sm:py-2 text-base flex items-center gap-2"
           onClick={() => setLanguageModalOpen(true)}
         >
-          <GlobalOutlined className="text-[16px]" />
+          <TranslationOutlined className="text-[16px]" />
           {t.language}
         </div>
       ),
