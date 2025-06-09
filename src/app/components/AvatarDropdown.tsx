@@ -26,6 +26,8 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
     () => localStorage.getItem("language") || "en"
   );
   const [avatarUrl, setAvatarUrl] = useState("");
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     fetchAvatar();
   }, []);
@@ -133,20 +135,24 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
       setAvatarUrl(data.avatar_url);
     } catch (error) {
       console.error("Failed to fetch avatar:", error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
     <>
       <Dropdown menu={{ items }} trigger={["hover"]} placement="bottomRight">
         <a onClick={(e) => e.preventDefault()}>
-          <div className=" w-6.5 h-6.5 sm:w-[32px] mx-1.5 sm:mx-0 sm:h-[32px] rounded-full overflow-hidden cursor-pointer flex-shrink-0">
-            <Image
-              src={avatarUrl || "/default-avatar.png"}
-              alt="User Avatar"
-              width={100}
-              height={100}
-              className="w-full h-full object-cover"
-            />
+          <div className=" w-6 h-6 sm:w-[31.5px] sm:h-[31.5px]  mx-1.5 sm:mx-0  rounded-full overflow-hidden cursor-pointer flex-shrink-0">
+            {!loading && (
+              <Image
+                src={avatarUrl || "/default-avatar.png"}
+                alt="User Avatar"
+                width={31.5}
+                height={31.5}
+                className="w-full h-full object-cover"
+              />
+            )}
           </div>
         </a>
       </Dropdown>

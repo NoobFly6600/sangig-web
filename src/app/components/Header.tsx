@@ -47,7 +47,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
         paddingLeft: "clamp(1rem, 2vw, 10rem)",
         paddingRight: "clamp(0rem, 2vw, 10rem)",
       }}
-      className="sticky  top-0 z-50 bg-white shadow flex justify-between items-center"
+      className="sticky h-12.5 sm:h-15.5 top-0 z-50 bg-white shadow flex justify-between items-center"
     >
       <div
         style={{ maxWidth: "1200px", width: "100%" }}
@@ -55,7 +55,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
       >
         <button
           onClick={() => router.push("/")}
-          className="py-2 text-2xl sm:text-3xl font-bold text-[#50C878] cursor-pointer focus:outline-none hover:text-[#3fa963]"
+          className="text-2xl sm:text-3xl font-bold text-[#50C878] cursor-pointer focus:outline-none hover:text-[#3fa963]"
         >
           {selectedLanguage === "zh" ? "闪职" : "Sangig"}
         </button>
@@ -65,7 +65,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
             <></>
           ) : (
             <>
-              <div className="flex items-center gap-1 sm:gap-3 ">
+              <div className="flex items-center gap-1 sm:gap-3">
                 {user ? (
                   <>
                     <span
@@ -88,17 +88,17 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
                       rounded-lg"
                     >
                       {selectedLanguage === "zh"
-                        ? "招人"
+                        ? "雇佣"
                         : selectedLanguage === "fr"
-                        ? "Recruter"
-                        : "Recruit"}
+                        ? "Embaucher"
+                        : "Hire"}
                     </button>
                   </>
                 ) : (
                   <>
                     <button
                       onClick={() => setLanguageModalOpen(true)}
-                      className="px-2 py-1 text-lg  mr-1 
+                      className="px-2 py-1 text-lg
                       sm:px-3 sm:py-1.5 sm:text-2xl  rounded-lg  text-gray-400 hover:text-black hover:bg-gray-100 transition cursor-pointer"
                     >
                       <TranslationOutlined />
@@ -106,10 +106,10 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
 
                     <button
                       onClick={() => router.push("/sign-in")}
-                      className="bg-[#50C878] text-white cursor-pointer transition hover:bg-[#3fa963]
-                      px-3 py-1 my-2 text-base font-medium
-                      sm:px-5 sm:py-1.5 sm:my-3 sm:text-lg sm:font-semibold
-                      rounded-lg"
+                      className="px-2 pt-3.5 pb-3 text-base font-medium 
+                      sm:pt-4.5 sm:pb-4 sm:text-lg sm:font-semibold
+                      hover:text-[#50C878] transition cursor-pointer
+                      border-b-2 border-transparent hover:border-[#50C878]"
                     >
                       {selectedLanguage === "zh"
                         ? "登录"
@@ -119,15 +119,16 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
                     </button>
                     <button
                       onClick={() => router.push("/sign-in")}
-                      className=" px-2 py-1 text-base font-medium
-                      sm:px-4 sm:py-1.5 sm:text-lg sm:font-semibold
-                      hover:text-[#3fa963] transition cursor-pointer"
+                      className="bg-[#50C878] text-white cursor-pointer transition hover:bg-[#3fa963]
+                      px-3 py-1  text-base font-medium ml-1.5
+                      sm:px-5 sm:py-1.5  sm:ml-3 sm:text-lg sm:font-semibold
+                      rounded-lg"
                     >
                       {selectedLanguage === "zh"
-                        ? "招人"
+                        ? "雇佣"
                         : selectedLanguage === "fr"
-                        ? "Recruter"
-                        : "Recruit"}
+                        ? "Embaucher"
+                        : "Hire"}
                     </button>
                   </>
                 )}

@@ -21,7 +21,7 @@ export default function SignIn() {
         ? "找工作、找零工，直接联系雇主，或发布工作、雇佣人才"
         : lang === "fr"
         ? "Connectez-vous pour découvrir des emplois, contacter les employeurs ou publier des offres."
-        : "Sign in to discover jobs and gigs, message employers directly, or post jobs, hire talent, and more.",
+        : "Find jobs and gigs, message employers directly, or post jobs, hire talent.",
     emailPlaceholder:
       lang === "zh"
         ? "请输入电子邮箱"
