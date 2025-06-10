@@ -20,7 +20,7 @@ type JobFormData = {
   company_name?: string;
   number_of_openings?: string;
   language: string[];
-  location: string; // ✅ this holds either "remote" or "City, Province"
+  location: string;
   job_type: string[];
   pay: string;
   description: string;
@@ -47,7 +47,11 @@ export default function Post() {
     email: "",
     status: "",
   });
+  const [searchCity, setSearchCity] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
   const postTypeOptions = ["individual", "recruiter", "company"];
+  const languageTypeOptions = ["english", "chinese", "french"];
+
   const jobTypeOptions = ["gig", "part", "full"];
   const locationTypeOptions = ["onsite", "remote"];
 
@@ -67,6 +71,23 @@ export default function Post() {
       individual: "Je recrute pour moi-même",
       recruiter: "Je suis un recruteur",
       company: "Je recrute pour mon entreprise",
+    },
+  };
+  const languageTypeLabels: Record<string, Record<string, string>> = {
+    en: {
+      english: "English",
+      chinese: "Chinese",
+      french: "French",
+    },
+    zh: {
+      english: "英语",
+      chinese: "中文",
+      french: "法语",
+    },
+    fr: {
+      english: "Anglais",
+      chinese: "Chinois",
+      french: "Français",
     },
   };
   const jobTypeLabels: Record<string, Record<string, string>> = {
@@ -142,6 +163,13 @@ export default function Post() {
         : lang === "fr"
         ? "Sélectionnez une ville"
         : "Select a city",
+    noResults:
+      lang === "zh"
+        ? "未找到匹配的城市，请输入城市名称"
+        : lang === "fr"
+        ? "Aucune ville trouvée. Essayez un autre nom."
+        : "No matching cities found. Try searching by city name.",
+
     jobType:
       lang === "zh" ? "工作类型" : lang === "fr" ? "Type d'emploi" : "Job type",
     pay: lang === "zh" ? "薪酬" : lang === "fr" ? "Salaire" : "Pay",
@@ -165,6 +193,7 @@ export default function Post() {
         : "To protect your privacy, we recommend not including your phone number or email in the job post. Communicate through SanGig until you’re comfortable sharing contact details. Report anyone who requests money or sensitive information.",
     phone: lang === "zh" ? "电话" : lang === "fr" ? "Téléphone" : "Phone",
     email: lang === "zh" ? "邮箱" : lang === "fr" ? "E-mail" : "Email",
+    submit: lang === "zh" ? "发布" : lang === "fr" ? "Publier" : "Post",
   };
   const handleChange = <K extends keyof JobFormData>(
     key: K,
@@ -172,7 +201,49 @@ export default function Post() {
   ) => {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
+  const handleSubmit = async () => {
+    // Fields to validate
+    const requiredFields = [
+      "type",
+      "title",
+      "language",
+      "location",
+      "job_type",
+      "pay",
+      "description",
+    ];
 
+    // Check for empty fields or invalid arrays
+    for (const field of requiredFields) {
+      const value = formData[field as keyof typeof formData];
+      if (
+        value === "" ||
+        (Array.isArray(value) && value.length === 0) ||
+        value === null ||
+        value === undefined
+      ) {
+        alert(`Please fill out the ${field} field.`);
+        return;
+      }
+    }
+
+    // Check if location matches searchCity
+    if (formData.location !== searchCity) {
+      alert("Please select a valid city from the list.");
+      return;
+    }
+
+    // Set status to active on submit
+    setFormData((prev) => ({
+      ...prev,
+      status: "active",
+    }));
+
+    // Show success modal or alert
+    alert("Success! Your job has been submitted.");
+
+    // Here you can do further processing like sending data to backend later
+  };
   if (!user) {
     return (
       <>
@@ -189,6 +260,7 @@ export default function Post() {
   return (
     <>
       <Header user={user} logout={logout} />
+      <div className="p-4 bg-gray-100 rounded-md whitespace-pre-wrap"></div>
       <div className="max-w-3xl mx-auto px-4 pt-6 sm:pt-8 py-20 sm:py-40 space-y-6">
         <h1 className="text-xl font-semibold">{t.title}</h1>
         {/* Type */}
@@ -252,7 +324,7 @@ export default function Post() {
             className="w-full  cursor-pointer border border-gray-300 rounded-md p-2 text-base focus:outline-none  focus:border-[#50C878]"
           >
             <option value="">{t.select}</option>
-            {[1, 2, 3, 4, 5, "10+"].map((n) => (
+            {[1, 2, 3, 4, 5, "5+"].map((n) => (
               <option key={n} value={n}>
                 {n}
               </option>
@@ -318,44 +390,72 @@ export default function Post() {
 
           {/* Show dropdown if NOT remote (either empty or city selected) */}
           {formData.location !== "remote" && (
-            <select
-              value={formData.location}
-              onChange={(e) => handleChange("location", e.target.value)}
-              className="w-full cursor-pointer border border-gray-300 rounded-md p-2 text-base focus:outline-none  focus:border-[#50C878]"
-            >
-              <option value="">{t.selectCity}</option>
-              {cities.map((city) => (
-                <option key={city} value={city}>
-                  {city}
-                </option>
-              ))}
-            </select>
+            <div className="relative w-full">
+              <input
+                type="text"
+                value={searchCity}
+                onChange={(e) => setSearchCity(e.target.value)}
+                onFocus={() => setShowDropdown(true)}
+                onBlur={() => setTimeout(() => setShowDropdown(false), 150)} // delay to allow click
+                placeholder={t.selectCity}
+                className="w-full border border-gray-300 rounded-md p-2 text-base focus:outline-none focus:border-[#50C878]"
+                autoComplete="off"
+              />
+
+              {showDropdown && (
+                <ul className="absolute z-10 w-full max-h-48 overflow-auto bg-white border border-gray-300 rounded-md mt-1 shadow-md">
+                  {cities.filter((city) =>
+                    city.toLowerCase().includes(searchCity.toLowerCase())
+                  ).length === 0 ? (
+                    <li className="px-4 py-2 text-gray-500">{t.noResults}</li>
+                  ) : (
+                    cities
+                      .filter((city) =>
+                        city.toLowerCase().includes(searchCity.toLowerCase())
+                      )
+                      .map((city) => (
+                        <li
+                          key={city}
+                          onClick={() => {
+                            handleChange("location", city);
+                            setSearchCity(city);
+                            setShowDropdown(false);
+                          }}
+                          className="cursor-pointer px-4 py-2 hover:bg-[#50C878] hover:text-white"
+                        >
+                          {city}
+                        </li>
+                      ))
+                  )}
+                </ul>
+              )}
+            </div>
           )}
         </div>
         {/* Language */}
         <div>
           <label className="block font-medium mb-1">{t.language} *</label>
           <div className="flex gap-2 font-medium ">
-            {["English", "中文", "Français"].map((lang) => (
+            {languageTypeOptions.map((langKey) => (
               <button
-                key={lang}
+                key={langKey}
                 onClick={() => {
-                  if (formData.language.includes(lang)) {
+                  if (formData.language.includes(langKey)) {
                     handleChange(
                       "language",
-                      formData.language.filter((l) => l !== lang)
+                      formData.language.filter((l) => l !== langKey)
                     );
                   } else {
-                    handleChange("language", [...formData.language, lang]);
+                    handleChange("language", [...formData.language, langKey]);
                   }
                 }}
                 className={`px-3 py-1 rounded-md border cursor-pointer ${
-                  formData.language.includes(lang)
+                  formData.language.includes(langKey)
                     ? "bg-[#50c878] text-white"
                     : "border-gray-300"
                 }`}
               >
-                {lang}
+                {languageTypeLabels[lang || "en"][langKey]}
               </button>
             ))}
           </div>
@@ -396,6 +496,12 @@ export default function Post() {
             className="w-full cursor-pointer border border-gray-300 rounded-md p-2 text-base focus:outline-none  focus:border-[#50C878]"
           />
         </div>
+        <button
+          onClick={handleSubmit}
+          className="w-full cursor-pointer bg-[#50C878] text-white py-2 rounded-md font-semibold"
+        >
+          {t.submit}
+        </button>
       </div>
     </>
   );
