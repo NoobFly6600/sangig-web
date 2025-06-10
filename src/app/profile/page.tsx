@@ -204,10 +204,10 @@ export default function Profile() {
   return (
     <>
       <Header user={user} logout={logout} />
-      <div className="max-w-3xl mx-auto px-2 sm:px-4 py-2 sm:py-8">
-        <div className="p-4 sm:p-0 flex items-center gap-1 sm:gap-4 sm:mb-6">
+      <div className="max-w-3xl  mx-auto px-6 sm:pt-0 pt-2">
+        <div className="flex items-center py-4 sm:py-6">
           <div
-            className="mr-3 sm:mr-2 w-15 h-15 sm:w-[100px] sm:h-[100px] rounded-full overflow-hidden cursor-pointer flex-shrink-0"
+            className="mr-4 sm:mr-8 w-15 h-15 sm:w-[100px] sm:h-[100px] rounded-full overflow-hidden cursor-pointer flex-shrink-0"
             onClick={() => fileInputRef.current?.click()}
           >
             <Image
@@ -251,7 +251,7 @@ export default function Profile() {
 
         <div
           className="border-0 sm:border sm:rounded-l-lg
-             sm:border-gray-300 rounded-lg p-4 sm:p-6 "
+             sm:border-gray-300 rounded-lg px-0 sm:px-6 py-0 sm:py-4"
         >
           <div className="space-y-3">
             <ProfileField label="About" value={userProfile?.about} />
