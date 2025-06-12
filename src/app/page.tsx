@@ -243,6 +243,7 @@ export default function Home() {
     setDisplayedJobs(nextItems);
     setPage(nextPage);
   };
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}

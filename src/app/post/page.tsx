@@ -1,19 +1,39 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
 import Header from "../components/Header";
 import { Descriptions } from "antd";
+import { ICity, City } from "country-state-city";
 
-const cities = [
+const canadianCities = [
   "Toronto, ON",
   "Vancouver, BC",
   "Montreal, QC",
   "Calgary, AB",
   "Ottawa, ON",
+  "Edmonton, AB",
+  "Winnipeg, MB",
+  "Quebec City, QC",
+  "Hamilton, ON",
+  "Kitchener, ON",
 ];
+
+const usCities = [
+  "New York, NY",
+  "Los Angeles, CA",
+  "Chicago, IL",
+  "Houston, TX",
+  "Phoenix, AZ",
+  "Philadelphia, PA",
+  "San Antonio, TX",
+  "San Diego, CA",
+  "Dallas, TX",
+  "San Jose, CA",
+];
+
 type JobFormData = {
   type: string;
   title: string;
@@ -51,9 +71,9 @@ export default function Post() {
   const [showDropdown, setShowDropdown] = useState(false);
   const postTypeOptions = ["individual", "recruiter", "company"];
   const languageTypeOptions = ["english", "chinese", "french"];
-
   const jobTypeOptions = ["gig", "part", "full"];
   const locationTypeOptions = ["onsite", "remote"];
+  const [cities, setCities] = useState<ICity[]>([]);
 
   // Translations for display
   const postTypeLabels: Record<string, Record<string, string>> = {
@@ -195,6 +215,34 @@ export default function Post() {
     email: lang === "zh" ? "邮箱" : lang === "fr" ? "E-mail" : "Email",
     submit: lang === "zh" ? "发布" : lang === "fr" ? "Publier" : "Post",
   };
+  const shortList =
+    cities.length && cities[0].countryCode === "CA" ? canadianCities : usCities;
+
+  const filteredCities =
+    searchCity === ""
+      ? shortList.map((city) => {
+          const [name, stateCode] = city.split(", ");
+          return { name, stateCode };
+        })
+      : cities
+          .filter((c) =>
+            c.name.toLowerCase().startsWith(searchCity.toLowerCase())
+          )
+          .map((c) => ({ name: c.name, stateCode: c.stateCode }));
+
+  useEffect(() => {
+    fetch("http://ip-api.com/json/")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.country === "Canada") {
+          setCities(City.getCitiesOfCountry("CA") || []);
+        } else {
+          setCities(City.getCitiesOfCountry("US") || []);
+        }
+      })
+      .catch(() => setCities([]));
+  }, []);
+
   const handleChange = <K extends keyof JobFormData>(
     key: K,
     value: JobFormData[K]
@@ -260,7 +308,6 @@ export default function Post() {
   return (
     <>
       <Header user={user} logout={logout} />
-      <div className="p-4 bg-gray-100 rounded-md whitespace-pre-wrap"></div>
       <div className="max-w-3xl mx-auto px-4 pt-6 sm:pt-8 py-20 sm:py-40 space-y-6">
         <h1 className="text-xl font-semibold">{t.title}</h1>
         {/* Type */}
@@ -404,28 +451,25 @@ export default function Post() {
 
               {showDropdown && (
                 <ul className="absolute z-10 w-full max-h-48 overflow-auto bg-white border border-gray-300 rounded-md mt-1 shadow-md">
-                  {cities.filter((city) =>
-                    city.toLowerCase().includes(searchCity.toLowerCase())
-                  ).length === 0 ? (
+                  {filteredCities.length === 0 ? (
                     <li className="px-4 py-2 text-gray-500">{t.noResults}</li>
                   ) : (
-                    cities
-                      .filter((city) =>
-                        city.toLowerCase().includes(searchCity.toLowerCase())
-                      )
-                      .map((city) => (
+                    filteredCities.map((cityObj) => {
+                      const formatted = `${cityObj.name}, ${cityObj.stateCode}`;
+                      return (
                         <li
-                          key={city}
+                          key={formatted}
                           onClick={() => {
-                            handleChange("location", city);
-                            setSearchCity(city);
+                            handleChange("location", formatted);
+                            setSearchCity(formatted);
                             setShowDropdown(false);
                           }}
                           className="cursor-pointer px-4 py-2 hover:bg-[#50C878] hover:text-white"
                         >
-                          {city}
+                          {formatted}
                         </li>
-                      ))
+                      );
+                    })
                   )}
                 </ul>
               )}

@@ -14,6 +14,7 @@ export default function SignIn() {
     typeof window !== "undefined" ? localStorage.getItem("language") : "en";
 
   const t = {
+    title: lang === "zh" ? "闪职" : "SanGig",
     signInTitle:
       lang === "zh" ? "登录" : lang === "fr" ? "Se connecter" : "Sign in",
     tagline:
@@ -133,7 +134,7 @@ export default function SignIn() {
     <div className="min-h-screen px-5 flex flex-col items-center pt-20 sm:pt-24 md:pt-26 lg:pt-28 2xl:pt-40">
       {!linkSent ? (
         <>
-          <h1 className="text-3xl font-bold mb-15">SanGig</h1>
+          <h1 className="text-3xl font-bold mb-15 text-[#50C878]">{t.title}</h1>
           <p className="text-gray-500 w-full max-w-md text-center">
             {t.tagline}
           </p>
