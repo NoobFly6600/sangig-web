@@ -230,18 +230,18 @@ export default function Post() {
             c.name.toLowerCase().startsWith(searchCity.toLowerCase())
           )
           .map((c) => ({ name: c.name, stateCode: c.stateCode }));
-
-  fetch("https://ipinfo.io/json?token=e6b79b3ab94f95")
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.country === "CA") {
-        setCities(City.getCitiesOfCountry("CA") || []);
-      } else {
-        setCities(City.getCitiesOfCountry("US") || []);
-      }
-    })
-    .catch(() => setCities([]));
-
+  useEffect(() => {
+    fetch("https://ipinfo.io/json?token=e6b79b3ab94f95")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.country === "CA") {
+          setCities(City.getCitiesOfCountry("CA") || []);
+        } else {
+          setCities(City.getCitiesOfCountry("US") || []);
+        }
+      })
+      .catch(() => setCities([]));
+  }, []);
   const handleChange = <K extends keyof JobFormData>(
     key: K,
     value: JobFormData[K]
