@@ -231,20 +231,16 @@ export default function Post() {
           )
           .map((c) => ({ name: c.name, stateCode: c.stateCode }));
 
-  useEffect(() => {
-    fetch("http://ip-api.com/json/")
-      .then((res) => res.json())
-      .then((data) => {
-        alert(`Please fill out the ${data.country} field.`);
-
-        if (data.country === "Canada") {
-          setCities(City.getCitiesOfCountry("CA") || []);
-        } else {
-          setCities(City.getCitiesOfCountry("US") || []);
-        }
-      })
-      .catch(() => setCities([]));
-  }, []);
+  fetch("https://ipinfo.io/json?token=e6b79b3ab94f95")
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.country === "CA") {
+        setCities(City.getCitiesOfCountry("CA") || []);
+      } else {
+        setCities(City.getCitiesOfCountry("US") || []);
+      }
+    })
+    .catch(() => setCities([]));
 
   const handleChange = <K extends keyof JobFormData>(
     key: K,
