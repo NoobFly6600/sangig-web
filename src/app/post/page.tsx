@@ -7,6 +7,7 @@ import { supabase } from "@/lib/supabase";
 import Header from "../components/Header";
 import { Descriptions } from "antd";
 import { ICity, City } from "country-state-city";
+import warning from "antd/es/_util/warning";
 
 const canadianCities = [
   "Toronto, ON",
@@ -234,6 +235,8 @@ export default function Post() {
     fetch("http://ip-api.com/json/")
       .then((res) => res.json())
       .then((data) => {
+        alert(`Please fill out the ${data.country} field.`);
+
         if (data.country === "Canada") {
           setCities(City.getCitiesOfCountry("CA") || []);
         } else {
