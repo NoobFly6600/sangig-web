@@ -63,16 +63,16 @@ const EditProfileModal: React.FC<EditProfileModalProps> = ({
       ))}
 
       {/* Buttons container */}
-      <div className="text-right mt-6">
+      <div className="text-right mt-4">
         <button
           onClick={onClose}
-          className="mr-2 cursor-pointer text-lg px-4 py-1 border text-gray-400 border-gray-300 rounded-md bg-white hover:bg-gray-100 transition"
+          className="mr-2 cursor-pointer font-semibold px-4 py-1 border text-gray-400 border-gray-300 rounded-md bg-white hover:bg-gray-100 transition"
         >
           Cancel
         </button>
         <button
           onClick={handleOk}
-          className="bg-[#50C878] text-lg cursor-pointer text-white px-4 py-1 rounded-md hover:bg-[#3fa963] transition"
+          className="bg-[#50C878] font-semibold cursor-pointer text-white px-4 py-1 rounded-md hover:bg-[#3fa963] transition"
         >
           Save
         </button>
