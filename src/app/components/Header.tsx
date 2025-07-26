@@ -2,12 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import {
-  GlobalOutlined,
-  MessageOutlined,
-  PlusCircleOutlined,
-  TranslationOutlined,
-} from "@ant-design/icons";
+import { MessageOutlined, TranslationOutlined } from "@ant-design/icons";
 import AvatarDropdown from "./AvatarDropdown";
 import { Modal } from "antd";
 
@@ -46,8 +41,9 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
       style={{
         paddingLeft: "clamp(1rem, 2vw, 10rem)",
         paddingRight: "clamp(0rem, 2vw, 10rem)",
+        borderBottomWidth: "1.5px",
       }}
-      className="sticky h-12.5 sm:h-15.5 top-0 z-50 bg-white shadow flex justify-between items-center"
+      className="sticky border-gray-200 h-15 sm:h-20 top-0 z-50 bg-white  flex justify-between items-center"
     >
       <div
         style={{ maxWidth: "1200px", width: "100%" }}
@@ -57,7 +53,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
           onClick={() => router.push("/")}
           className="text-2xl sm:text-3xl font-bold text-[#50C878] cursor-pointer focus:outline-none hover:text-[#3fa963]"
         >
-          {selectedLanguage === "zh" ? "闪职" : "Sangig"}
+          {selectedLanguage === "zh" ? "闪职" : "SanGig"}
         </button>
 
         <div className="flex items-center ml-auto">
@@ -70,7 +66,7 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
                   <>
                     <span
                       onClick={() => router.push("/messages")}
-                      className={`p-2 pt-2.5 sm:pt-3.5 sm:p-3 text-2xl sm:text-3xl cursor-pointer transition border-b-2 ${
+                      className={`p-2.5 pt-3 sm:pt-5 sm:p-4.5 text-3xl sm:text-4xl cursor-pointer transition border-b-2 ${
                         pathname === "/messages"
                           ? "border-[#50C878] text-[#50C878]"
                           : "border-transparent text-gray-400 hover:border-[#50C878]"
@@ -106,8 +102,8 @@ const Header: React.FC<HeaderProps> = ({ user, logout, loading }) => {
 
                     <button
                       onClick={() => router.push("/sign-in")}
-                      className="px-2 pt-3.5 pb-3 text-base font-medium 
-                      sm:pt-4.5 sm:pb-4 sm:text-lg sm:font-semibold
+                      className=" px-2 pt-4.5 pb-4 text-base font-medium 
+                      sm:pt-6.5 sm:pb-6 sm:text-lg sm:font-semibold
                       hover:text-[#50C878] transition cursor-pointer
                       border-b-2 border-transparent hover:border-[#50C878]"
                     >
