@@ -262,13 +262,14 @@ export default function Home() {
           <div
             id="scrollableDiv"
             className={`
-            relative z-0 
-            w-full sm:w-1/2 overflow-auto
-            border-0 sm:border sm:rounded-l-lg
-            sm:border sm:border-gray-300
-          `}
+              relative z-0 
+              w-full sm:w-1/2 overflow-auto
+              sm:border sm:rounded-l-lg sm:border-gray-200
+              sm:border-b-0
+            `}
             style={{
               height: "85vh",
+              border: "1.5px solid #e5e7eb", // gray-200
             }}
           >
             <InfiniteScroll
@@ -349,13 +350,15 @@ export default function Home() {
             className="
             hidden sm:block sm:w-1/2
             sm:border-t sm:border-r sm:border-b
-            sm:border-gray-300
+            sm:border-gray-200
             sm:rounded-r-lg
             overflow-auto
-      
           "
             style={{
               height: "85vh",
+              borderTopWidth: "1.5px",
+              borderRightWidth: "1.5px",
+              borderBottomWidth: "1.5px",
             }}
           >
             <div className="p-4 pt-0">
