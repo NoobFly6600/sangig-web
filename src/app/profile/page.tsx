@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
 import Header from "../components/Header";
-import { EditFilled } from "@ant-design/icons";
 import EditProfileModal from "../components/EditProfileModal";
 
 export type UserProfile = {
