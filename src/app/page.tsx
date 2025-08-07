@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
 import Header from "./components/Header";
-
+import { Drawer, Button, Space } from "antd";
 type JobInfo = {
   id: string;
   type: string | null;
@@ -36,6 +36,8 @@ export default function Home() {
   const [jobs, setJobs] = useState<JobInfo[]>([]);
   const [selectedJob, setSelectedJob] = useState<JobData | null>(null);
   const hasSelectedFirstJob = useRef(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const drawerContentRef = useRef<HTMLDivElement>(null);
 
   const pageRef = useRef(0);
   const [hasMore, setHasMore] = useState(true);
@@ -110,9 +112,7 @@ export default function Home() {
     const observer = new IntersectionObserver(
       (entries) => {
         const first = entries[0];
-        if (first.isIntersecting) {
-          fetchJobs();
-        }
+        if (first.isIntersecting) fetchJobs();
       },
       { threshold: 1 }
     );
@@ -123,16 +123,20 @@ export default function Home() {
     return () => {
       if (current) observer.unobserve(current);
     };
-  }, [loaderRef.current, hasMore]);
+  }, [hasMore]);
+  useEffect(() => {
+    if (isDrawerOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isDrawerOpen]);
   const handleSelect = async (jobId: string) => {
     try {
-      if (isMobile) {
-        // On mobile, navigate to detail page
-        router.push(`/job-detail/${jobId}`);
-        return;
-      }
-
-      // Desktop behavior — fetch full job details and display
       const { data, error } = await supabase
         .from("jobs")
         .select(
@@ -146,7 +150,12 @@ export default function Home() {
         return;
       }
 
-      setSelectedJob(data); // Set full job data for desktop
+      setSelectedJob(data);
+      if (isMobile) {
+        // On mobile, open a modal or drawer
+        setIsDrawerOpen(true);
+        return;
+      }
     } catch (err) {
       console.error("Unexpected error fetching job details:", err);
     }
@@ -232,6 +241,52 @@ export default function Home() {
                 {new Date(selectedJob.created_at).toLocaleDateString()}
               </div>
             </div>
+          )}
+          {isMobile && selectedJob && (
+            <Drawer
+              title={"Job Detaills"}
+              placement="bottom"
+              height="100%"
+              onClose={() => setIsDrawerOpen(false)}
+              open={isDrawerOpen}
+              extra={
+                <Space>
+                  <button
+                    onClick={() => setIsDrawerOpen(false)}
+                    className="bg-[#50C878]  font-semibold cursor-pointer text-white px-5 py-1.5 rounded-lg hover:bg-[#3fa963] transition"
+                  >
+                    Message
+                  </button>
+                </Space>
+              }
+            >
+              <p>
+                <strong>{selectedJob.title}</strong>
+              </p>
+              <p>
+                <strong>Company:</strong> {selectedJob.company_name}
+              </p>
+              <p>
+                <strong>Location:</strong> {selectedJob.location ?? "N/A"}
+              </p>
+              <p>
+                <strong>Pay:</strong> {selectedJob.pay ?? "N/A"}
+              </p>
+              <p>
+                <strong>Openings:</strong>{" "}
+                {selectedJob.number_of_openings ?? "N/A"}
+              </p>
+              <p>
+                <strong>Phone:</strong> {selectedJob.phone ?? "N/A"}
+              </p>
+              <p>
+                <strong>Email:</strong> {selectedJob.email ?? "N/A"}
+              </p>
+              <p>
+                <strong>Views:</strong> {selectedJob.views ?? 0}
+              </p>
+              <p className="mt-4">{selectedJob.description}</p>
+            </Drawer>
           )}
         </div>
       </main>
