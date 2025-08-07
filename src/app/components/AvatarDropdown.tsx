@@ -143,13 +143,13 @@ const AvatarDropdown: React.FC<{ logout: () => void }> = ({ logout }) => {
     <>
       <Dropdown menu={{ items }} trigger={["hover"]} placement="bottomRight">
         <a onClick={(e) => e.preventDefault()}>
-          <div className=" w-[24px] h-[24px]  sm:w-[31.5px] sm:h-[31.5px]  mx-1.5 sm:mx-0  rounded-full overflow-hidden cursor-pointer flex-shrink-0">
+          <div className=" w-[31px] h-[31px]  sm:w-[36px] sm:h-[36px]  mx-1.5 sm:mx-0  rounded-full overflow-hidden cursor-pointer flex-shrink-0">
             {!loading && (
               <Image
                 src={avatarUrl || "/default-avatar.png"}
                 alt="User Avatar"
-                width={31.5}
-                height={31.5}
+                width={36}
+                height={36}
                 className="w-full h-full object-cover"
               />
             )}
