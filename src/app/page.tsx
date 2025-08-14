@@ -124,17 +124,7 @@ export default function Home() {
       if (current) observer.unobserve(current);
     };
   }, [hasMore]);
-  useEffect(() => {
-    if (isDrawerOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
 
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isDrawerOpen]);
   const handleSelect = async (jobId: string) => {
     try {
       const { data, error } = await supabase
@@ -153,6 +143,7 @@ export default function Home() {
       setSelectedJob(data);
       if (isMobile) {
         // On mobile, open a modal or drawer
+        document.body.style.overflow = "hidden";
         setIsDrawerOpen(true);
         return;
       }
@@ -247,7 +238,10 @@ export default function Home() {
               title={"Job Detaills"}
               placement="bottom"
               height="100%"
-              onClose={() => setIsDrawerOpen(false)}
+              onClose={() => {
+                document.body.style.overflow = "";
+                setIsDrawerOpen(false);
+              }}
               open={isDrawerOpen}
               extra={
                 <Space>
